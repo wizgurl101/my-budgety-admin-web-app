@@ -1,7 +1,10 @@
-import NavBar from "@/components/navbar/page";
-import { Container } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 import React from "react";
+import { DataGrid } from '@mui/x-data-grid';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+
+import NavBar from "@/components/navbar/page";
+import SideNav from "@/components/sidenav/page";
 
 // todo test data
 const sampleData = [
