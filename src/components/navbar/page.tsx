@@ -29,7 +29,10 @@ export default function NavBar() : React.JSX.Element {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ mr: 2 }}>
+                        sx={{ mr: 2 }}
+                        onClick={() => {
+                            setOpenSideNav(true);
+                        }}>
                         <MenuIcon />
                     </IconButton>
                     <Typography
