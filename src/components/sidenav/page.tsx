@@ -1,11 +1,13 @@
 'use client'
 
 import * as React from 'react';
+import Link from 'next/link';
+
 import Drawer from '@mui/material/Drawer';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItem from "@mui/material/ListItem";
 
 export interface SideNavProps {
     onClose?: () => void;
@@ -21,9 +23,18 @@ export default function SideNav({ onClose, open }: SideNavProps): React.ReactEle
         >
             <MenuList>
                 <MenuItem>
-                    <ListItemIcon>
-                        <ListItemText>Dashboard</ListItemText>
-                    </ListItemIcon>
+                    <ListItem component={Link} href={"/dashboard"}>
+                        <ListItemText>
+                            Dashboard
+                        </ListItemText>
+                    </ListItem>
+                </MenuItem>
+                <MenuItem>
+                    <ListItem component={Link} href={"/dashboard/category"}>
+                        <ListItemText>
+                            Category & Keywords
+                        </ListItemText>
+                    </ListItem>
                 </MenuItem>
             </MenuList>
         </Drawer>
