@@ -1,5 +1,6 @@
 import React from "react";
 import Image from 'next/image';
+import ProgressBar from "@/components/progressBar/page";
 
 
 function getBudgetSpend(): number {
@@ -31,9 +32,10 @@ export default function Dashboard() {
             <Image
                 src={imageUrl}
                 alt="Terriermon status according to amount spent"
-                width={500}
-                height={500}
+                width={300}
+                height={300}
             />
+            <ProgressBar percentage={test_spend}/>
         </>
     )
 }
