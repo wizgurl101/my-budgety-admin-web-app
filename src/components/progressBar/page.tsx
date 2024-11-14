@@ -1,4 +1,5 @@
 import React from "react";
+import { CSSProperties} from "react";
 
 export interface ProgressBarProps {
     percentage: number;
@@ -14,7 +15,7 @@ export default function ProgressBar({ percentage, colour }: ProgressBarProps): R
         margin: 50
     }
 
-    const fillerStyles = {
+    const fillerStyles: CSSProperties = {
         height: '100%',
         width: `${percentage}%`,
         backgroundColor: `${colour}`,
@@ -28,7 +29,7 @@ export default function ProgressBar({ percentage, colour }: ProgressBarProps): R
         fontWeight: 'bold'
     }
 
-    // @ts-ignore
+
     return (
         <div style={containerStyles}>
             <div style={fillerStyles}>
