@@ -2,9 +2,10 @@ import React from "react";
 
 export interface ProgressBarProps {
     percentage: number;
+    colour: string
 }
 
-export default function ProgressBar({ percentage }: ProgressBarProps): React.ReactElement {
+export default function ProgressBar({ percentage, colour }: ProgressBarProps): React.ReactElement {
     const containerStyles = {
         height: 20,
         width: '100%',
@@ -16,7 +17,7 @@ export default function ProgressBar({ percentage }: ProgressBarProps): React.Rea
     const fillerStyles = {
         height: '100%',
         width: `${percentage}%`,
-        backgroundColor: 'green',
+        backgroundColor: `${colour}`,
         borderRadius: 'inherit',
         textAlign: 'right'
     }
