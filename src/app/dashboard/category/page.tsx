@@ -1,19 +1,8 @@
-import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+'use client'
 
-// todo test data
-const sampleData = [
-    {
-        id: 1,
-        category_id: "abc_123",
-        name: 'category 1 name'
-    },
-    {
-        id: 2,
-        category_id: "def_456",
-        name: 'category 2 name'
-    }
-]
+import * as React from 'react';
+import useSWR from 'swr'
+import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
     { field: 'category_id', headerName: 'Category ID', width: 200 },
@@ -21,9 +10,15 @@ const columns = [
 ]
 
 export default function Page(): React.JSX.Element {
+    const fetcher = (url: string) => fetch(url).then(res => res.json())
+    const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
+
+    if (error) return <div>Error loading data</div>
+    if (isLoading) return <div>Loading...</div>
+
     return (
         <>
-            <DataGrid rows={sampleData} columns={columns} />
+            <DataGrid rows={data.data} columns={columns} />
         </>
     )
 }
