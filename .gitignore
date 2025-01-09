@@ -40,3 +40,4 @@ next-env.d.ts
 /mockup
 
 .env.development
+*storybook.log
