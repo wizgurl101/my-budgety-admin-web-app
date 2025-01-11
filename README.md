@@ -1,5 +1,12 @@
 # my-budgety-admin-web-app
 
+![Demo](./my-budgety-web-app.gif)
+
+
+My Budgety Web Admin Application is for helping me track my expanses. 
+
+## Dev Setup
+
 ### Run application in dev mode
 ```bash
   npm run dev

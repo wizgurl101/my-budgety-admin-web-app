@@ -32,7 +32,7 @@ export default function SideNav({ onClose, open }: SideNavProps): React.ReactEle
                 <MenuItem>
                     <ListItem component={Link} href={"/dashboard/category"}>
                         <ListItemText>
-                            Category & Keywords
+                            Category Management
                         </ListItemText>
                     </ListItem>
                 </MenuItem>
