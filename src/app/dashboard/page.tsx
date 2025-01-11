@@ -13,9 +13,9 @@ function getBudgetSpend(): number {
     return Math.floor(Math.random() * 101);
 }
 
-function getImageUrl(amount: number): string {
-    const budgetAmount: number = 50
+const budgetAmount: number = 50
 
+function getImageUrl(amount: number): string {
     if(amount > (budgetAmount - 10)) {
         return "/images/terriermon-disappointed.jpg"
     }
@@ -28,8 +28,6 @@ function getImageUrl(amount: number): string {
 }
 
 function getProgressBarColour(amount: number): string {
-    const budgetAmount: number = 50
-
     if(amount > (budgetAmount - 10) || amount === budgetAmount) {
         return "orange"
     }
@@ -82,11 +80,11 @@ export default function Dashboard() {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_MONTH_EXPANSE_LOCALHOST_URL}`, fetcher)
 
     if (error) {
-        console.log(error)
         return <Typography variant="h4">Error Loading Data</Typography>
     }
     if (isLoading) return <div>Loading...</div>
 
+    const expansesTotal = data.reduce((acc: number, item: { amount: number}) => acc + item.amount, 0)
     const currentDate = new Date(Date.now())
 
     return (
@@ -101,7 +99,7 @@ export default function Dashboard() {
                     />
                 </Grid>
                 <Grid size={10} sx={{ mt: '2rem'}}>
-                    <ProgressBar percentage={test_spend} colour={progressBarColour}/>
+                    <ProgressBar percentage={expansesTotal} colour={progressBarColour}/>
                 </Grid>
                 <Grid size={10} sx={{ mt: '2rem', mb: '2rem' }}>
                     <Typography variant="h4">{currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}</Typography>
