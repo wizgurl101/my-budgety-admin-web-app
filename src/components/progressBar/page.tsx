@@ -28,7 +28,7 @@ export default function ProgressBar({ percentage, colour }: ProgressBarProps): R
         color: 'white',
         fontWeight: 'bold'
     }
-    
+
     return (
         <div style={containerStyles}>
             <div style={fillerStyles}>

@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react';
+import LoadingBar from "@/components/loadingBar/page";
 import useSWR from 'swr'
 import {DataGrid} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
@@ -35,7 +36,7 @@ export default function Page(): React.JSX.Element {
     if (error){
         return  <Typography variant="h4">Error Loading Data</Typography>
     }
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <LoadingBar />
 
     return (
         <Box sx={{ flexGrow: 1 }}>

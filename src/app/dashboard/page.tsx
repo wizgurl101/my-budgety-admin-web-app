@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import ProgressBar from "@/components/progressBar/page";
+import LoadingBar from "@/components/loadingBar/page";
 import useSWR from 'swr'
 import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@mui/material/Grid2';
@@ -73,7 +74,7 @@ export default function Dashboard() {
     if (error) {
         return <Typography variant="h4">Error Loading Data</Typography>
     }
-    if (isLoading) return <Typography variant="h4">Loading</Typography>
+    if (isLoading) return <LoadingBar />
 
     //todo remove this after getting current budget spend from api
     const expansesTotal = data.reduce((acc: number, item: { amount: number}) => acc + item.amount, 0)
