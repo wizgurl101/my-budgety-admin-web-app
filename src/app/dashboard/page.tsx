@@ -4,6 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import ProgressBar from "@/components/progressBar/page";
 import LoadingBar from "@/components/loadingBar/page";
+import { getMonthFirstDay, getMonthLastDay } from "@/utils/dateTime.utils";
 import useSWR from 'swr'
 import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@mui/material/Grid2';
@@ -46,10 +47,12 @@ const columns = [
     {field: 'amount', headerName: 'Amount', width: 200 },
 ]
 
+const currentDate = new Date(Date.now())
+
 const params = {
     userId: "0b039d57-30b9-4e19-a228-9425b8529189",
-    firstDayOfMonthDate: "2025-01-01",
-    lastDayOfMonthDate: "2025-01-31"
+    firstDayOfMonthDate: getMonthFirstDay(currentDate),
+    lastDayOfMonthDate: getMonthLastDay(currentDate)
 }
 const fetcher = async (url: string) =>
 {
