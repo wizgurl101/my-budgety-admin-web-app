@@ -9,7 +9,7 @@ export interface ProgressBarProps {
 export default function ProgressBar({ percentage, colour }: ProgressBarProps): React.ReactElement {
     const containerStyles = {
         height: 20,
-        width: '100%',
+        width: '90%',
         backgroundColor: "#e0e0de",
         borderRadius: 50,
         margin: 50
@@ -28,13 +28,12 @@ export default function ProgressBar({ percentage, colour }: ProgressBarProps): R
         color: 'white',
         fontWeight: 'bold'
     }
-
-
+    
     return (
         <div style={containerStyles}>
             <div style={fillerStyles}>
                 <span style={labelStyles}>
-                    {`${percentage}%`}
+                    {`${Math.round(percentage)}%`}
                 </span>
             </div>
         </div>
