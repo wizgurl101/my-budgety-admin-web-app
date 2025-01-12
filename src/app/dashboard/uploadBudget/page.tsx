@@ -22,7 +22,6 @@ export default function UploadBudget() {
 
         console.log(file.name)
         formData.append('file', file);
-        formData.append('userId', `${process.env.NEXT_PUBLIC_USER_ID}`);
 
         const response = await fetch(url, {
             method: 'POST',
