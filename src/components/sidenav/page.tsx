@@ -30,6 +30,13 @@ export default function SideNav({ onClose, open }: SideNavProps): React.ReactEle
                     </ListItem>
                 </MenuItem>
                 <MenuItem>
+                    <ListItem component={Link} href={"/dashboard/uploadBudget"}>
+                        <ListItemText>
+                            Upload & Budget Management
+                        </ListItemText>
+                    </ListItem>
+                </MenuItem>
+                <MenuItem>
                     <ListItem component={Link} href={"/dashboard/category"}>
                         <ListItemText>
                             Category Management
