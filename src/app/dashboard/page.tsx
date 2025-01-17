@@ -50,7 +50,7 @@ const columns = [
 const currentDate = new Date(Date.now())
 
 const params = {
-    userId: "0b039d57-30b9-4e19-a228-9425b8529189",
+    userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
     firstDayOfMonthDate: getMonthFirstDay(currentDate),
     lastDayOfMonthDate: getMonthLastDay(currentDate)
 }
@@ -73,6 +73,9 @@ const fetcher = async (url: string) =>
 };
 
 export default function Dashboard() {
+    console.log(process.env.NEXT_PUBLIC_GET_MONTH_EXPANSE_LOCALHOST_URL)
+    console.log(process.env.NEXT_PUBLIC_USER_ID)
+
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_MONTH_EXPANSE_LOCALHOST_URL}`, fetcher)
     if (error) {
         return <Typography variant="h4">Error Loading Data</Typography>
