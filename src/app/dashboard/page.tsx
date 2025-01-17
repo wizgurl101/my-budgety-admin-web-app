@@ -73,9 +73,6 @@ const fetcher = async (url: string) =>
 };
 
 export default function Dashboard() {
-    console.log(process.env.NEXT_PUBLIC_GET_MONTH_EXPANSE_LOCALHOST_URL)
-    console.log(process.env.NEXT_PUBLIC_USER_ID)
-
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_MONTH_EXPANSE_LOCALHOST_URL}`, fetcher)
     if (error) {
         return <Typography variant="h4">Error Loading Data</Typography>
