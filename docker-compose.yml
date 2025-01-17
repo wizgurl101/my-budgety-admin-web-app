@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  my-budgety-admin-web-app:
+    build:
+      context: ./my-budgety-admin-web-app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+
+  my-budgety-backend:
+    build:
+      context: ../my-budgety-backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./my-budgety-backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development

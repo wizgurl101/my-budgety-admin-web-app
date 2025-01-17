@@ -50,7 +50,7 @@ const columns = [
 const currentDate = new Date(Date.now())
 
 const params = {
-    userId: "0b039d57-30b9-4e19-a228-9425b8529189",
+    userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
     firstDayOfMonthDate: getMonthFirstDay(currentDate),
     lastDayOfMonthDate: getMonthLastDay(currentDate)
 }
