@@ -16,8 +16,14 @@ interface NewCategoryDialogProps {
 
 export default function NewCategoryDialog ({ open, onClose, onCreate }: NewCategoryDialogProps) {
     const [categoryName, setCategoryName] = React.useState('');
+    const [error, setError] = React.useState('');
 
     const handleCreate = () => {
+        if (categoryName === "") {
+            setError('Category Name is required');
+            return;
+        }
+
         onCreate(categoryName);
         setCategoryName('');
         onClose();
@@ -29,20 +35,22 @@ export default function NewCategoryDialog ({ open, onClose, onCreate }: NewCateg
             <DialogContent>
                 <TextField
                     autoFocus
+                    required={true}
                     margin="dense"
-                    label="Category Name"
+                    label="New Category Name"
                     type="text"
                     fullWidth
                     variant="outlined"
                     value={categoryName}
                     onChange={(e) => setCategoryName(e.target.value)}
+                    helperText={error}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleCreate} color="primary">
+                <Button type="submit" onClick={handleCreate} color="primary">
                     Add
                 </Button>
             </DialogActions>
