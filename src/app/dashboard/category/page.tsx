@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import LoadingBar from "@/components/loadingBar/page";
-import useSWR from 'swr'
+import useSWR, {mutate} from 'swr'
 import {DataGrid} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
@@ -46,7 +46,24 @@ export default function Page(): React.JSX.Element {
 
     const createCategory = async (categoryName: string) => {
         try {
-            console.log('Creating category')
+            await mutate('/category', async () => {
+                const response = await fetch('http://localhost:5000/category', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userID,
+                        categoryName: categoryName,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create category');
+                }
+
+                return response.json();
+            })
         } catch (error) {
             // @ts-ignore
             throw new Error(`Failed to create category: ${error.message}`)
