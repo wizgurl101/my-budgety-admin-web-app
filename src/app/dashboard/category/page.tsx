@@ -35,6 +35,7 @@ const fetcher = async (url: string) => {
 export default function Page(): React.JSX.Element {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
     const [isNewCategoryDialogOpen, setNewCategoryDialogOpen] = React.useState(false)
+    const [responseMessage, setResponseMessage] = React.useState('')
 
     if (error){
         return  <Typography variant="h4">Error Loading Data</Typography>
@@ -62,7 +63,9 @@ export default function Page(): React.JSX.Element {
                     throw new Error('Failed to create category');
                 }
 
-                return response.json();
+                const data = await response.json();
+                setResponseMessage('Category created successfully')
+                return data;
             })
         } catch (error) {
             // @ts-ignore
@@ -84,6 +87,9 @@ export default function Page(): React.JSX.Element {
                     <Button variant="contained"  onClick={() => setNewCategoryDialogOpen(true)}>
                         + Add New Category
                     </Button>
+                </Grid>
+                <Grid size={10}>
+                    <Typography variant="body1">{responseMessage}</Typography>
                 </Grid>
                 <Grid size={10}>
                     {isNewCategoryDialogOpen && (<NewCategoryDialog open={true}
