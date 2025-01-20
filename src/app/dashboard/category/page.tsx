@@ -64,8 +64,13 @@ export default function Page(): React.JSX.Element {
                 }
 
                 const data = await response.json();
-                setResponseMessage('Category created successfully')
-                return data;
+                setResponseMessage(data.message)
+
+                setTimeout(() => {
+                    setResponseMessage("")
+                }, 5000)
+
+                await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
             })
         } catch (error) {
             // @ts-ignore
