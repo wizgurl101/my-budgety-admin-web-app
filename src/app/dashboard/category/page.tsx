@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
+import NewCategoryDialog from "@/app/dashboard/category/NewCategoryDialog";
 
 const columns = [
     { field: 'category_id', headerName: 'Category ID', width: 200 },
@@ -33,16 +34,28 @@ const fetcher = async (url: string) => {
 
 export default function Page(): React.JSX.Element {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
-    const [openNewCategoryDialog, setOpenNewCategoryDialog] = React.useState(false)
+    const [isNewCategoryDialogOpen, setNewCategoryDialogOpen] = React.useState(false)
 
     if (error){
         return  <Typography variant="h4">Error Loading Data</Typography>
     }
     if (isLoading) return <LoadingBar />
 
-    const handleOpenNewCategoryDialog = () => {}
+    //todo look into context API to save the User ID
+    const userID = process.env.NEXT_PUBLIC_USER_ID
 
-    const handleCloseNewCategoryDialog = () => {}
+    const createCategory = async (categoryName: string) => {
+        try {
+            console.log('Creating category')
+        } catch (error) {
+            // @ts-ignore
+            throw new Error(`Failed to create category: ${error.message}`)
+        }
+    }
+
+    const handleOnClose = () => {
+        setNewCategoryDialogOpen(false)
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -51,9 +64,16 @@ export default function Page(): React.JSX.Element {
                     <Typography variant="h4">Categories</Typography>
                 </Grid>
                 <Grid size={10} sx={{ mb: '1rem'}}>
-                    <Button variant="contained"  onClick={handleCreateNewCategory}>
+                    <Button variant="contained"  onClick={() => setNewCategoryDialogOpen(true)}>
                         + Add New Category
                     </Button>
+                </Grid>
+                <Grid size={10}>
+                    {isNewCategoryDialogOpen && (<NewCategoryDialog open={true}
+                                                                    onClose={handleOnClose}
+                                                                    onCreate={createCategory}>
+
+                    </NewCategoryDialog>)}
                 </Grid>
                 <Grid size={10}>
                     <DataGrid rows={data} columns={columns} />

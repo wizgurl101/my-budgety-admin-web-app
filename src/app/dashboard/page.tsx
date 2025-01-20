@@ -83,7 +83,7 @@ export default function Dashboard() {
     const expansesTotal = data.reduce((acc: number, item: { amount: number}) => acc + item.amount, 0)
     const currentDate = new Date(Date.now())
 
-    let percentage = 0
+    let percentage: number
     if (expansesTotal > budgetAmount)
     {
         percentage = 100
