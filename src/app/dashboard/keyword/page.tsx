@@ -110,7 +110,7 @@ export default function Page(): React.JSX.Element {
 
                 setTimeout(() => {
                     setResponseMessage("")
-                }, 5000)
+                }, 3000)
 
                 await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
                 await mutate(getCategoryKeywordsURL)
@@ -146,7 +146,7 @@ export default function Page(): React.JSX.Element {
 
                 setTimeout(() => {
                     setResponseMessage("")
-                }, 5000)
+                }, 3000)
 
                 await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
                 await mutate(getCategoryKeywordsURL)
@@ -176,7 +176,7 @@ export default function Page(): React.JSX.Element {
 
                 setTimeout(() => {
                     setResponseMessage("")
-                }, 5000)
+                }, 3000)
 
                 await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
                 await mutate(getCategoryKeywordsURL)
