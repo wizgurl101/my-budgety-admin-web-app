@@ -21,8 +21,8 @@ export default function Page(): React.JSX.Element {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
     const getCategoryKeywordsURL = `http://localhost:5000/keyword/byCategory/${selectedCategoryId}`
     const { data: keywordsData,  error: keywordsError, isLoading: isKeywordLoading } = useSWR(getCategoryKeywordsURL, fetcher)
-
     const [isNewKeywordDialogOpen, setNewKeywordDialogOpen] = React.useState(false)
+    const [responseMessage, setResponseMessage] = React.useState('')
 
     React.useEffect(() => {
         if (data && data.length > 0) {
@@ -59,7 +59,7 @@ export default function Page(): React.JSX.Element {
                     },
                     body: JSON.stringify({
                         categoryId: selectedCategoryId,
-                        categoryName: keywordName,
+                        name: keywordName,
                     }),
                 });
 
@@ -75,6 +75,7 @@ export default function Page(): React.JSX.Element {
                 }, 5000)
 
                 await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
+                await mutate(getCategoryKeywordsURL)
             })
         } catch (error) {
             // @ts-ignore
@@ -109,14 +110,12 @@ export default function Page(): React.JSX.Element {
                 </FormControl>
             </Grid>
             <Grid size={12}>
-                <Button variant="contained" color="primary">
+                <Button variant="contained"
+                        color="primary"
+                        onClick={() => setNewKeywordDialogOpen(true)}
+                >
                     + Add New Keyword
                 </Button>
-            </Grid>
-            <Grid size={12}  sx={{height: '400px', overflowY: 'auto'}}>
-                {keywordsError && <Typography variant="h4">Error Loading Keywords</Typography>}
-                {isKeywordLoading && <LoadingBar />}
-                {!keywordsError && <DataGrid rows={keywordsData} columns={keywordColumns} />}
             </Grid>
             <Grid size={10}>
                 {isNewKeywordDialogOpen && (
@@ -128,6 +127,14 @@ export default function Page(): React.JSX.Element {
                         buttonLabel="Add"
                     />
                 )}
+            </Grid>
+            <Grid size={10}>
+                <Typography variant="body1">{responseMessage}</Typography>
+            </Grid>
+            <Grid size={12}  sx={{height: '400px', overflowY: 'auto'}}>
+                {keywordsError && <Typography variant="h4">Error Loading Keywords</Typography>}
+                {isKeywordLoading && <LoadingBar />}
+                {!keywordsError && <DataGrid rows={keywordsData} columns={keywordColumns} />}
             </Grid>
         </Grid>
     </Box>
