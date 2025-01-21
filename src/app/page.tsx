@@ -12,7 +12,7 @@ export default function Home() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100vh',
-                backgroundColor: '#fff',
+                backgroundColor: '#F7F7F7',
                 gap: 2
             }}
         >

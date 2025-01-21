@@ -94,7 +94,7 @@ export default function Dashboard() {
     const imageUrl = getImageUrl(percentage);
 
     return (
-        <Box sx={{ flexGrow: 1, width: '100vm', overflow: 'auto'}}>
+        <Box sx={{ flexGrow: 1, width: 'auto', overflow: 'auto'}}>
             <Grid container columns={12} justifyContent="center" alignItems="center">
                 <Grid size={10} sx={{ mt: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <Image
@@ -117,7 +117,16 @@ export default function Dashboard() {
                     <Typography variant="h4">{currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}</Typography>
                 </Grid>
                 <Grid size={10} sx={{ overflow: 'auto'}}>
-                    <DataGrid rows={data} columns={columns} />
+                    <DataGrid
+                        rows={data}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { pageSize: 10 }
+                            }
+                        }}
+                        pageSizeOptions={[10, 20, 50]}
+                    />
                 </Grid>
             </Grid>
     </Box>
