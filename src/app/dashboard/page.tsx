@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 //todo remove this after getting current budget amount from api
-const budgetAmount: number = 55
+const budgetAmount: number = 1200
 
 function getImageUrl(percent: number): string {
     if(percent === 100) {
@@ -94,7 +94,7 @@ export default function Dashboard() {
     const imageUrl = getImageUrl(percentage);
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, width: '100vm', overflow: 'auto'}}>
             <Grid container columns={12} justifyContent="center" alignItems="center">
                 <Grid size={10} sx={{ mt: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <Image
@@ -116,7 +116,7 @@ export default function Dashboard() {
                 <Grid size={10} sx={{ mt: '2rem', mb: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Typography variant="h4">{currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}</Typography>
                 </Grid>
-                <Grid size={10}>
+                <Grid size={10} sx={{ overflow: 'auto'}}>
                     <DataGrid rows={data} columns={columns} />
                 </Grid>
             </Grid>

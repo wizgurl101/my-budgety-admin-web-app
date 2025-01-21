@@ -1,6 +1,7 @@
 import * as React from 'react';
 import NavBar from "@/components/navbar/page";
 import Container from "@mui/material/Container";
+import Box from '@mui/material/Box';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -8,7 +9,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
     return (
-        <div>
+        <Box sx={{ width: '100%'}}>
             <NavBar/>
             <Container
                 sx={{
@@ -23,6 +24,6 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
             >
                 {children}
             </Container>
-        </div>
+        </Box>
     )
 }
