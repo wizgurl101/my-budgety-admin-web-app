@@ -103,8 +103,36 @@ export default function Page(): React.JSX.Element {
     ]
 
     const editCategory = async (categoryName: string) => {
-        console.log('edit category')
-        console.log(categoryName)
+        try {
+            await mutate('/category', async () => {
+                const url = `http://localhost:5000/category/${editCategoryId}`
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        updatedName: categoryName,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to updated category');
+                }
+
+                const data = await response.json();
+                setResponseMessage(data.message)
+
+                setTimeout(() => {
+                    setResponseMessage("")
+                }, 5000)
+
+                await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
+            })
+        } catch (error) {
+            // @ts-ignore
+            throw new Error(`Failed to update category: ${error.message}`)
+        }
     }
 
     return (
@@ -134,7 +162,7 @@ export default function Page(): React.JSX.Element {
                                                                     onClose={handleOnClose}
                                                                     onCreate={editCategory}
                                                                     label="Edit Category Name"
-                                                                    buttonLabel="Confirm"
+                                                                    buttonLabel="Update"
                     />)}
                 </Grid>
                 <Grid size={10}>
