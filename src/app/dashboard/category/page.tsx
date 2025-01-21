@@ -10,7 +10,9 @@ import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
 import NewCategoryDialog from "@/app/dashboard/category/NewCategoryDialog";
+import DeleteCategoryDialog from "@/app/dashboard/category/DeleteCategoryDialog";
 
 const fetcher = async (url: string) => {
     try
@@ -33,7 +35,9 @@ export default function Page(): React.JSX.Element {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
     const [isNewCategoryDialogOpen, setNewCategoryDialogOpen] = React.useState(false)
     const [isEditCategoryDialogOpen, setEditCategoryDialogOpen] = React.useState(false)
-    const [editCategoryId, setEditCategoryId] = React.useState('')
+    const [isDeleteCategoryDialogOpen, setDeleteCategoryDialogOpen] = React.useState(false)
+    const [selectedCategoryName, setSelectedCategoryName] = React.useState('')
+    const [selectedCategoryId, setSelectedCategoryId] = React.useState('')
     const [responseMessage, setResponseMessage] = React.useState('')
 
     if (error){
@@ -80,11 +84,19 @@ export default function Page(): React.JSX.Element {
     const handleOnClose = () => {
         setNewCategoryDialogOpen(false)
         setEditCategoryDialogOpen(false)
+        setDeleteCategoryDialogOpen(false)
     }
 
     const handleEditCategory = (category: any) => {
-        setEditCategoryId(category.category_id)
+        setSelectedCategoryId(category.category_id)
+        setSelectedCategoryName(category.name)
         setEditCategoryDialogOpen(true)
+    }
+
+    const handleDeleteCategory = (category: any) => {
+        setSelectedCategoryId(category.category_id)
+        setSelectedCategoryName(category.name)
+        setDeleteCategoryDialogOpen(true)
     }
 
     // @ts-ignore
@@ -94,9 +106,20 @@ export default function Page(): React.JSX.Element {
         {
             field: 'edit',
             width: 100,
+            filterable: false,
             renderCell: (params) => (
                 <IconButton onClick={() => handleEditCategory(params.row)}>
                     <EditIcon />
+                </IconButton>
+            )
+        },
+        {
+            field: 'delete',
+            width: 100,
+            filterable: false,
+            renderCell: (params) => (
+                <IconButton onClick={() => handleDeleteCategory(params.row)}>
+                    <DeleteIcon />
                 </IconButton>
             )
         }
@@ -105,7 +128,7 @@ export default function Page(): React.JSX.Element {
     const editCategory = async (categoryName: string) => {
         try {
             await mutate('/category', async () => {
-                const url = `http://localhost:5000/category/${editCategoryId}`
+                const url = `http://localhost:5000/category/${selectedCategoryId}`
                 const response = await fetch(url, {
                     method: 'PUT',
                     headers: {
@@ -122,6 +145,7 @@ export default function Page(): React.JSX.Element {
 
                 const data = await response.json();
                 setResponseMessage(data.message)
+                setSelectedCategoryId('')
 
                 setTimeout(() => {
                     setResponseMessage("")
@@ -132,6 +156,34 @@ export default function Page(): React.JSX.Element {
         } catch (error) {
             // @ts-ignore
             throw new Error(`Failed to update category: ${error.message}`)
+        }
+    }
+
+    const deleteCategory = async (categoryName: string) => {
+        try {
+            await mutate('/category', async () => {
+                const url = `http://localhost:5000/category/${selectedCategoryId}`
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete category');
+                }
+
+                const data = await response.json();
+                setResponseMessage(data.message)
+                setSelectedCategoryId('')
+
+                setTimeout(() => {
+                    setResponseMessage("")
+                }, 5000)
+
+                await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
+            })
+        } catch (error) {
+            // @ts-ignore
+            throw new Error(`Failed to delete category: ${error.message}`)
         }
     }
 
@@ -161,8 +213,15 @@ export default function Page(): React.JSX.Element {
                     {isEditCategoryDialogOpen && (<NewCategoryDialog open={true}
                                                                     onClose={handleOnClose}
                                                                     onCreate={editCategory}
-                                                                    label="Edit Category Name"
+                                                                    label={`Edit Category: ${selectedCategoryName} Name`}
                                                                     buttonLabel="Update"
+                    />)}
+                </Grid>
+                <Grid size={10}>
+                    {isDeleteCategoryDialogOpen && (<DeleteCategoryDialog open={true}
+                                                                    onClose={handleOnClose}
+                                                                    onDeletion={deleteCategory}
+                                                                    categoryName={selectedCategoryName}
                     />)}
                 </Grid>
                 <Grid size={10}>
