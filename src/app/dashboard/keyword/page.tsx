@@ -22,6 +22,9 @@ export default function Page(): React.JSX.Element {
     const getCategoryKeywordsURL = `http://localhost:5000/keyword/byCategory/${selectedCategoryId}`
     const { data: keywordsData,  error: keywordsError, isLoading: isKeywordLoading } = useSWR(getCategoryKeywordsURL, fetcher)
     const [isNewKeywordDialogOpen, setNewKeywordDialogOpen] = React.useState(false)
+    const [isEditKeywordDialogOpen, setEditKeywordDialogOpen] = React.useState(false)
+    const [selectedKeywordId, setSelectedKeywordId] = React.useState('')
+    const [selectedKeywordName, setSelectedKeywordName] = React.useState('')
     const [responseMessage, setResponseMessage] = React.useState('')
 
     React.useEffect(() => {
@@ -35,9 +38,18 @@ export default function Page(): React.JSX.Element {
     }
     if (isLoading) return <LoadingBar />
 
-    // @ts-ignore
     const keywordColumns = [
         { field: 'name', headerName: 'Name', width: 200 },
+        {
+            field: 'edit',
+            width: 100,
+            filterable: false,
+            renderCell: (params: GridRenderCellParams) => (
+                <IconButton onClick={() => handleEditKeyword(params.row)}>
+                    <EditIcon />
+                </IconButton>
+            )
+        }
     ]
 
     const handleSelectCategory = async (event: SelectChangeEvent) => {
@@ -47,6 +59,13 @@ export default function Page(): React.JSX.Element {
 
     const handleOnClose = () => {
         setNewKeywordDialogOpen(false);
+        setEditKeywordDialogOpen(false)
+    }
+
+    const handleEditKeyword = (keyword: any) => {
+        setSelectedKeywordId(keyword.keyword_id);
+        setSelectedKeywordName(keyword.name)
+        setEditKeywordDialogOpen(true)
     }
 
     const createKeyword = async (keywordName: string) => {
@@ -80,6 +99,42 @@ export default function Page(): React.JSX.Element {
         } catch (error) {
             // @ts-ignore
             throw new Error(`Failed to create category: ${error.message}`)
+        }
+    }
+
+    const editKeyword = async (keywordName: string) => {
+        try {
+            await mutate('/keyword', async () => {
+                const url = `http://localhost:5000/keyword/${selectedKeywordId}`
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        updatedName: keywordName,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to updated keyword');
+                }
+
+                const data = await response.json();
+                setResponseMessage(data.message)
+                setSelectedKeywordId('')
+                setSelectedKeywordName('')
+
+                setTimeout(() => {
+                    setResponseMessage("")
+                }, 5000)
+
+                await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
+                await mutate(getCategoryKeywordsURL)
+            })
+        } catch (error) {
+            // @ts-ignore
+            throw new Error(`Failed to update keyword: ${error.message}`)
         }
     }
 
@@ -125,6 +180,17 @@ export default function Page(): React.JSX.Element {
                         onCreate={createKeyword}
                         label="New Keyword Name"
                         buttonLabel="Add"
+                    />
+                )}
+            </Grid>
+            <Grid size={10}>
+                {isEditKeywordDialogOpen && (
+                    <KeywordDialog
+                        open={true}
+                        onClose={handleOnClose}
+                        onCreate={editKeyword}
+                        label={`Edit ${selectedKeywordName} Name`}
+                        buttonLabel="Update"
                     />
                 )}
             </Grid>
