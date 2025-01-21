@@ -15,6 +15,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {fetcher} from "@/utils/SWR.utils";
 import KeywordDialog from "@/app/dashboard/keyword/KeywordDialog";
+import DeleteDialog from "@/components/deleteDialog/page";
 
 export default function Page(): React.JSX.Element {
     const [selectedCategoryId, setSelectedCategoryId] = React.useState('');
@@ -23,6 +24,7 @@ export default function Page(): React.JSX.Element {
     const { data: keywordsData,  error: keywordsError, isLoading: isKeywordLoading } = useSWR(getCategoryKeywordsURL, fetcher)
     const [isNewKeywordDialogOpen, setNewKeywordDialogOpen] = React.useState(false)
     const [isEditKeywordDialogOpen, setEditKeywordDialogOpen] = React.useState(false)
+    const [isDeleteKeywordDialogOpen, setDeleteKeywordDialogOpen] = React.useState(false)
     const [selectedKeywordId, setSelectedKeywordId] = React.useState('')
     const [selectedKeywordName, setSelectedKeywordName] = React.useState('')
     const [responseMessage, setResponseMessage] = React.useState('')
@@ -49,6 +51,16 @@ export default function Page(): React.JSX.Element {
                     <EditIcon />
                 </IconButton>
             )
+        },
+        {
+            field: 'delete',
+            width: 100,
+            filterable: false,
+            renderCell: (params: GridRenderCellParams) => (
+                <IconButton onClick={() => handleDeleteKeyword(params.row)}>
+                    <DeleteIcon />
+                </IconButton>
+            )
         }
     ]
 
@@ -60,12 +72,19 @@ export default function Page(): React.JSX.Element {
     const handleOnClose = () => {
         setNewKeywordDialogOpen(false);
         setEditKeywordDialogOpen(false)
+        setDeleteKeywordDialogOpen(false)
     }
 
     const handleEditKeyword = (keyword: any) => {
         setSelectedKeywordId(keyword.keyword_id);
         setSelectedKeywordName(keyword.name)
         setEditKeywordDialogOpen(true)
+    }
+
+    const handleDeleteKeyword = (keyword: any) => {
+        setSelectedKeywordId(keyword.keyword_id)
+        setSelectedKeywordName(keyword.name)
+        setDeleteKeywordDialogOpen(true)
     }
 
     const createKeyword = async (keywordName: string) => {
@@ -138,6 +157,36 @@ export default function Page(): React.JSX.Element {
         }
     }
 
+    const deleteKeyword = async () => {
+        try {
+            await mutate('/keyword', async () => {
+                const url = `http://localhost:5000/keyword/${selectedKeywordId}`
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete keyword');
+                }
+
+                const data = await response.json();
+                setResponseMessage(data.message)
+                setSelectedKeywordId('')
+                setSelectedKeywordName('')
+
+                setTimeout(() => {
+                    setResponseMessage("")
+                }, 5000)
+
+                await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
+                await mutate(getCategoryKeywordsURL)
+            })
+        } catch (error) {
+            // @ts-ignore
+            throw new Error(`Failed to delete keyword: ${error.message}`)
+        }
+    }
+
     return (
     <Box sx={{ flexGrow: 1}}>
         <Grid container spacing={12} rowSpacing={2}>
@@ -191,6 +240,16 @@ export default function Page(): React.JSX.Element {
                         onCreate={editKeyword}
                         label={`Edit ${selectedKeywordName} Name`}
                         buttonLabel="Update"
+                    />
+                )}
+            </Grid>
+            <Grid size={10}>
+                {isDeleteKeywordDialogOpen && (
+                    <DeleteDialog
+                        open={true}
+                        onCloseAction={handleOnClose}
+                        onDeletionAction={deleteKeyword}
+                        name={selectedKeywordName}
                     />
                 )}
             </Grid>
