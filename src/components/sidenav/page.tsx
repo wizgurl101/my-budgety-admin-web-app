@@ -36,6 +36,13 @@ export default function SideNav({ onClose, open }: SideNavProps): React.ReactEle
                         </ListItemText>
                     </ListItem>
                 </MenuItem>
+                <MenuItem>
+                    <ListItem component={Link} href={"/dashboard/keyword"}>
+                        <ListItemText>
+                            Category Keywords Management
+                        </ListItemText>
+                    </ListItem>
+                </MenuItem>
             </MenuList>
         </Drawer>
     );
