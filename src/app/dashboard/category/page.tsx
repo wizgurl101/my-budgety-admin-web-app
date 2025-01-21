@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import NewCategoryDialog from "@/app/dashboard/category/NewCategoryDialog";
-import DeleteCategoryDialog from "@/app/dashboard/category/DeleteCategoryDialog";
+import DeleteDialog from "@/components/deleteDialog/page";
 import {fetcher} from "@/utils/SWR.utils";
 
 export default function Page(): React.JSX.Element {
@@ -201,10 +201,12 @@ export default function Page(): React.JSX.Element {
                     />)}
                 </Grid>
                 <Grid size={10}>
-                    {isDeleteCategoryDialogOpen && (<DeleteCategoryDialog open={true}
-                                                                    onClose={handleOnClose}
-                                                                    onDeletion={deleteCategory}
-                                                                    categoryName={selectedCategoryName}
+                    {isDeleteCategoryDialogOpen && (
+                        <DeleteDialog
+                            open={true}
+                            onCloseAction={handleOnClose}
+                            onDeletionAction={deleteCategory}
+                            name={selectedCategoryName}
                     />)}
                 </Grid>
                 <Grid size={10}>
