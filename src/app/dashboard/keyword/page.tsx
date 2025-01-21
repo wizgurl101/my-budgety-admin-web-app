@@ -14,12 +14,15 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {fetcher} from "@/utils/SWR.utils";
+import KeywordDialog from "@/app/dashboard/keyword/KeywordDialog";
 
 export default function Page(): React.JSX.Element {
     const [selectedCategoryId, setSelectedCategoryId] = React.useState('');
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
     const getCategoryKeywordsURL = `http://localhost:5000/keyword/byCategory/${selectedCategoryId}`
     const { data: keywordsData,  error: keywordsError, isLoading: isKeywordLoading } = useSWR(getCategoryKeywordsURL, fetcher)
+    const [isNewKeywordDialogOpen, setNewKeywordDialogOpen] = React.useState(false)
+    const [responseMessage, setResponseMessage] = React.useState('')
 
     React.useEffect(() => {
         if (data && data.length > 0) {
@@ -42,10 +45,48 @@ export default function Page(): React.JSX.Element {
         await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
     };
 
+    const handleOnClose = () => {
+        setNewKeywordDialogOpen(false);
+    }
+
+    const createKeyword = async (keywordName: string) => {
+        try {
+            await mutate('/keyword', async () => {
+                const response = await fetch('http://localhost:5000/keyword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        categoryId: selectedCategoryId,
+                        name: keywordName,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create keyword');
+                }
+
+                const data = await response.json();
+                setResponseMessage(data.message)
+
+                setTimeout(() => {
+                    setResponseMessage("")
+                }, 5000)
+
+                await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
+                await mutate(getCategoryKeywordsURL)
+            })
+        } catch (error) {
+            // @ts-ignore
+            throw new Error(`Failed to create category: ${error.message}`)
+        }
+    }
+
     return (
     <Box sx={{ flexGrow: 1}}>
-        <Grid container spacing={12}>
-            <Grid size={12} sx={{ mt: '2rem'}}>
+        <Grid container spacing={12} rowSpacing={2}>
+            <Grid size={12} sx={{ mt: '1rem'}}>
                 <Typography variant="h4">Manage Category's Keywords</Typography>
             </Grid>
             <Grid size={12}>
@@ -67,6 +108,28 @@ export default function Page(): React.JSX.Element {
                         ))}
                     </Select>
                 </FormControl>
+            </Grid>
+            <Grid size={12}>
+                <Button variant="contained"
+                        color="primary"
+                        onClick={() => setNewKeywordDialogOpen(true)}
+                >
+                    + Add New Keyword
+                </Button>
+            </Grid>
+            <Grid size={10}>
+                {isNewKeywordDialogOpen && (
+                    <KeywordDialog
+                        open={true}
+                        onClose={handleOnClose}
+                        onCreate={createKeyword}
+                        label="New Keyword Name"
+                        buttonLabel="Add"
+                    />
+                )}
+            </Grid>
+            <Grid size={10}>
+                <Typography variant="body1">{responseMessage}</Typography>
             </Grid>
             <Grid size={12}  sx={{height: '400px', overflowY: 'auto'}}>
                 {keywordsError && <Typography variant="h4">Error Loading Keywords</Typography>}
