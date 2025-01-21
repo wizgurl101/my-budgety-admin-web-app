@@ -44,8 +44,8 @@ export default function Page(): React.JSX.Element {
 
     return (
     <Box sx={{ flexGrow: 1}}>
-        <Grid container spacing={12}>
-            <Grid size={12} sx={{ mt: '2rem'}}>
+        <Grid container spacing={12} rowSpacing={2}>
+            <Grid size={12} sx={{ mt: '1rem'}}>
                 <Typography variant="h4">Manage Category's Keywords</Typography>
             </Grid>
             <Grid size={12}>
@@ -67,6 +67,11 @@ export default function Page(): React.JSX.Element {
                         ))}
                     </Select>
                 </FormControl>
+            </Grid>
+            <Grid size={12}>
+                <Button variant="contained" color="primary">
+                    + Add New Keyword
+                </Button>
             </Grid>
             <Grid size={12}  sx={{height: '400px', overflowY: 'auto'}}>
                 {keywordsError && <Typography variant="h4">Error Loading Keywords</Typography>}
