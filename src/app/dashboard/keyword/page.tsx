@@ -17,7 +17,6 @@ import {fetcher} from "@/utils/SWR.utils";
 
 export default function Page(): React.JSX.Element {
     const [selectedCategoryId, setSelectedCategoryId] = React.useState('');
-
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
     const getCategoryKeywordsURL = `http://localhost:5000/keyword/byCategory/${selectedCategoryId}`
     const { data: keywordsData,  error: keywordsError, isLoading: isKeywordLoading } = useSWR(getCategoryKeywordsURL, fetcher)
@@ -40,10 +39,11 @@ export default function Page(): React.JSX.Element {
 
     const handleSelectCategory = async (event: SelectChangeEvent) => {
         setSelectedCategoryId(event.target.value as string);
+        await mutate(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`)
     };
 
     return (
-    <Box sx={{flexGrow: 1}}>
+    <Box sx={{ flexGrow: 1}}>
         <Grid container spacing={12}>
             <Grid size={12} sx={{ mt: '2rem'}}>
                 <Typography variant="h4">Manage Category's Keywords</Typography>
@@ -68,7 +68,7 @@ export default function Page(): React.JSX.Element {
                     </Select>
                 </FormControl>
             </Grid>
-            <Grid size={12}>
+            <Grid size={12}  sx={{height: '400px', overflowY: 'auto'}}>
                 {keywordsError && <Typography variant="h4">Error Loading Keywords</Typography>}
                 {isKeywordLoading && <LoadingBar />}
                 {!keywordsError && <DataGrid rows={keywordsData} columns={keywordColumns} />}
