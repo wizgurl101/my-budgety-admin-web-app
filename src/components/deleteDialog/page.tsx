@@ -8,14 +8,14 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Typography from "@mui/material/Typography";
 
-interface DeleteKeywordDialogProps {
+interface DeleteDialogProps {
     open: boolean;
     onCloseAction: () => void;
     onDeletionAction: () => Promise<void>;
     name: string;
 }
 
-export default function DeleteCategoryDialog ({ open, onCloseAction, onDeletionAction, name}: DeleteKeywordDialogProps) {
+export default function DeleteDialog ({ open, onCloseAction, onDeletionAction, name}: DeleteDialogProps) {
     const handleDeletion = async () => {
         await onDeletionAction();
         onCloseAction();
