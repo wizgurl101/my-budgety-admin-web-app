@@ -50,7 +50,7 @@ const columns = [
 const currentDate = new Date(Date.now())
 
 const params = {
-    userId: "0b039d57-30b9-4e19-a228-9425b8529189",
+    userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
     firstDayOfMonthDate: getMonthFirstDay(currentDate),
     lastDayOfMonthDate: getMonthLastDay(currentDate)
 }
@@ -82,7 +82,14 @@ export default function Dashboard() {
     //todo remove this after getting current budget spend from api
     const expansesTotal = data.reduce((acc: number, item: { amount: number}) => acc + item.amount, 0)
     const currentDate = new Date(Date.now())
-    const percentage = (expansesTotal / budgetAmount) * 100
+
+    let percentage: number
+    if (expansesTotal > budgetAmount)
+    {
+        percentage = 100
+    } else {
+        percentage = (expansesTotal / budgetAmount) * 100
+    }
     const progressBarColour = getProgressBarColour(percentage);
     const imageUrl = getImageUrl(percentage);
 
