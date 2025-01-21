@@ -8,14 +8,14 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Typography from "@mui/material/Typography";
 
-interface DeleteCategoryDialogProps {
+interface DeleteKeywordDialogProps {
     open: boolean;
     onCloseAction: () => void;
     onDeletionAction: () => Promise<void>;
-    categoryName: string;
+    name: string;
 }
 
-export default function DeleteCategoryDialog ({ open, onCloseAction, onDeletionAction, categoryName}: DeleteCategoryDialogProps) {
+export default function DeleteCategoryDialog ({ open, onCloseAction, onDeletionAction, name}: DeleteKeywordDialogProps) {
     const handleDeletion = async () => {
         await onDeletionAction();
         onCloseAction();
@@ -23,12 +23,12 @@ export default function DeleteCategoryDialog ({ open, onCloseAction, onDeletionA
 
     return (
         <Dialog open={open} onClose={onCloseAction}>
-            <DialogTitle>Confirm deletion of {categoryName}</DialogTitle>
+            <DialogTitle>Confirm deletion of {name}</DialogTitle>
             <DialogContent>
                 <Typography
                     variant="body1"
                     color="textPrimary">
-                    Are you sure you want to delete the category: {categoryName}?
+                    Are you sure you want to delete: {name}?
                 </Typography>
             </DialogContent>
             <DialogActions>
