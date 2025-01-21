@@ -16,20 +16,29 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {fetcher} from "@/utils/SWR.utils";
 
 export default function Page(): React.JSX.Element {
-    const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
     const [selectedCategoryId, setSelectedCategoryId] = React.useState('');
 
-    if (error){
-        return  <Typography variant="h4">Error Loading Data</Typography>
-    }
-    if (isLoading) return <LoadingBar />
+    const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
+    const getCategoryKeywordsURL = `http://localhost:5000/keyword/byCategory/${selectedCategoryId}`
+    const { data: keywordsData,  error: keywordsError, isLoading: isKeywordLoading } = useSWR(getCategoryKeywordsURL, fetcher)
+
+    React.useEffect(() => {
+        if (data && data.length > 0) {
+            setSelectedCategoryId(data[0].category_id);
+        }
+    }, [data]);
 
     if (error){
         return  <Typography variant="h4">Error Loading Data</Typography>
     }
     if (isLoading) return <LoadingBar />
 
-    const handleSelectCategory = (event: SelectChangeEvent) => {
+    // @ts-ignore
+    const keywordColumns = [
+        { field: 'name', headerName: 'Name', width: 200 },
+    ]
+
+    const handleSelectCategory = async (event: SelectChangeEvent) => {
         setSelectedCategoryId(event.target.value as string);
     };
 
@@ -58,6 +67,11 @@ export default function Page(): React.JSX.Element {
                         ))}
                     </Select>
                 </FormControl>
+            </Grid>
+            <Grid size={12}>
+                {keywordsError && <Typography variant="h4">Error Loading Keywords</Typography>}
+                {isKeywordLoading && <LoadingBar />}
+                {!keywordsError && <DataGrid rows={keywordsData} columns={keywordColumns} />}
             </Grid>
         </Grid>
     </Box>
