@@ -8,12 +8,9 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 import NewCategoryDialog from "@/app/dashboard/category/NewCategoryDialog";
-
-const columns = [
-    { field: 'category_id', headerName: 'Category ID', width: 200 },
-    { field: 'name', headerName: 'Name', width: 200 },
-]
 
 const fetcher = async (url: string) => {
     try
@@ -35,6 +32,8 @@ const fetcher = async (url: string) => {
 export default function Page(): React.JSX.Element {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
     const [isNewCategoryDialogOpen, setNewCategoryDialogOpen] = React.useState(false)
+    const [isEditCategoryDialogOpen, setEditCategoryDialogOpen] = React.useState(false)
+    const [editCategoryId, setEditCategoryId] = React.useState('')
     const [responseMessage, setResponseMessage] = React.useState('')
 
     if (error){
@@ -80,6 +79,32 @@ export default function Page(): React.JSX.Element {
 
     const handleOnClose = () => {
         setNewCategoryDialogOpen(false)
+        setEditCategoryDialogOpen(false)
+    }
+
+    const handleEditCategory = (category: any) => {
+        setEditCategoryId(category.category_id)
+        setEditCategoryDialogOpen(true)
+    }
+
+    // @ts-ignore
+    const columns = [
+        { field: 'category_id', headerName: 'Category ID', width: 200 },
+        { field: 'name', headerName: 'Name', width: 200 },
+        {
+            field: 'edit',
+            width: 100,
+            renderCell: (params) => (
+                <IconButton onClick={() => handleEditCategory(params.row)}>
+                    <EditIcon />
+                </IconButton>
+            )
+        }
+    ]
+
+    const editCategory = async (categoryName: string) => {
+        console.log('edit category')
+        console.log(categoryName)
     }
 
     return (
@@ -99,9 +124,18 @@ export default function Page(): React.JSX.Element {
                 <Grid size={10}>
                     {isNewCategoryDialogOpen && (<NewCategoryDialog open={true}
                                                                     onClose={handleOnClose}
-                                                                    onCreate={createCategory}>
-
-                    </NewCategoryDialog>)}
+                                                                    onCreate={createCategory}
+                                                                    label="New Category Name"
+                                                                    buttonLabel="Add"
+                    />)}
+                </Grid>
+                <Grid size={10}>
+                    {isEditCategoryDialogOpen && (<NewCategoryDialog open={true}
+                                                                    onClose={handleOnClose}
+                                                                    onCreate={editCategory}
+                                                                    label="Edit Category Name"
+                                                                    buttonLabel="Confirm"
+                    />)}
                 </Grid>
                 <Grid size={10}>
                     <DataGrid rows={data} columns={columns} />

@@ -12,9 +12,11 @@ interface NewCategoryDialogProps {
     open: boolean;
     onClose: () => void;
     onCreate: (categoryName: string) => void;
+    label: string;
+    buttonLabel: string;
 }
 
-export default function NewCategoryDialog ({ open, onClose, onCreate }: NewCategoryDialogProps) {
+export default function NewCategoryDialog ({ open, onClose, onCreate, label, buttonLabel }: NewCategoryDialogProps) {
     const [categoryName, setCategoryName] = React.useState('');
     const [error, setError] = React.useState('');
 
@@ -31,13 +33,13 @@ export default function NewCategoryDialog ({ open, onClose, onCreate }: NewCateg
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Add New Category</DialogTitle>
+            <DialogTitle>{label}</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     required={true}
                     margin="dense"
-                    label="New Category Name"
+                    label={label}
                     type="text"
                     fullWidth
                     variant="outlined"
@@ -51,7 +53,7 @@ export default function NewCategoryDialog ({ open, onClose, onCreate }: NewCateg
                     Cancel
                 </Button>
                 <Button type="submit" onClick={handleCreate} color="primary">
-                    Add
+                    {buttonLabel}
                 </Button>
             </DialogActions>
         </Dialog>
