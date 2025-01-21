@@ -16,7 +16,7 @@ interface NewCategoryDialogProps {
     buttonLabel: string;
 }
 
-export default function NewCategoryDialog ({ open, onClose, onCreate, label, buttonLabel }: NewCategoryDialogProps) {
+export default function NewKeywordDialog ({ open, onClose, onCreate, label, buttonLabel }: NewCategoryDialogProps) {
     const [keywordName, setKeywordName] = React.useState('');
     const [error, setError] = React.useState('');
 
