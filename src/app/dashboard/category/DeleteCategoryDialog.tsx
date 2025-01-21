@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 interface DeleteCategoryDialogProps {
     open: boolean;
     onClose: () => void;
-    onDeletion: () => void;
+    onDeletion: () => Promise<void>;
     categoryName: string;
 }
 
