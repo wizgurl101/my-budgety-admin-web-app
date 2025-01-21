@@ -3,7 +3,7 @@
 import * as React from 'react';
 import LoadingBar from "@/components/loadingBar/page";
 import useSWR, {mutate} from 'swr'
-import {DataGrid} from '@mui/x-data-grid';
+import {DataGrid, GridRenderCellParams} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
@@ -13,23 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from '@mui/icons-material/Delete';
 import NewCategoryDialog from "@/app/dashboard/category/NewCategoryDialog";
 import DeleteCategoryDialog from "@/app/dashboard/category/DeleteCategoryDialog";
-
-const fetcher = async (url: string) => {
-    try
-    {
-        const res = await fetch(url)
-
-        if(!res.ok)
-        {
-            throw new Error('Network response to get all category was not ok')
-        }
-
-        return await res.json()
-    } catch (error) {
-        // @ts-ignore
-        throw new Error(`Failed to fetch data: ${error.message}`)
-    }
-}
+import {fetcher} from "@/utils/SWR.utils";
 
 export default function Page(): React.JSX.Element {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_LOCALHOST_URL}`, fetcher)
@@ -99,7 +83,6 @@ export default function Page(): React.JSX.Element {
         setDeleteCategoryDialogOpen(true)
     }
 
-    // @ts-ignore
     const columns = [
         { field: 'category_id', headerName: 'Category ID', width: 200 },
         { field: 'name', headerName: 'Name', width: 200 },
@@ -107,7 +90,7 @@ export default function Page(): React.JSX.Element {
             field: 'edit',
             width: 100,
             filterable: false,
-            renderCell: (params) => (
+            renderCell: (params: GridRenderCellParams) => (
                 <IconButton onClick={() => handleEditCategory(params.row)}>
                     <EditIcon />
                 </IconButton>
@@ -117,7 +100,7 @@ export default function Page(): React.JSX.Element {
             field: 'delete',
             width: 100,
             filterable: false,
-            renderCell: (params) => (
+            renderCell: (params: GridRenderCellParams) => (
                 <IconButton onClick={() => handleDeleteCategory(params.row)}>
                     <DeleteIcon />
                 </IconButton>
@@ -159,7 +142,7 @@ export default function Page(): React.JSX.Element {
         }
     }
 
-    const deleteCategory = async (categoryName: string) => {
+    const deleteCategory = async () => {
         try {
             await mutate('/category', async () => {
                 const url = `http://localhost:5000/category/${selectedCategoryId}`
