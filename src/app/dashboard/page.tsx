@@ -42,9 +42,10 @@ function getProgressBarColour(percent: number): string {
   * **/
 const columns = [
     { field: 'categoryName', headerName: 'Category Name', width: 200 },
-    {field: 'date', headerName: 'Date', width: 200, valueGetter: (date: any, row:any) => date.value },
+    {field: 'date', headerName: 'Date', width: 150, valueGetter: (date: any, row:any) => date.value },
     { field: 'name', headerName: 'Name', width: 200 },
-    {field: 'amount', headerName: 'Amount', width: 200 },
+    {field: 'amount', headerName: 'Amount', width: 150 },
+    {field: 'card_name', headerName: 'Card Name', width: 200 }
 ]
 
 const currentDate = new Date(Date.now())
