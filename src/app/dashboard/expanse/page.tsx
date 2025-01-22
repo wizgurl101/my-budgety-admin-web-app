@@ -13,6 +13,8 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import {fetcher} from "@/utils/SWR.utils";
 import EditExpanseDialog from "@/app/dashboard/expanse/EditExpanseDialog";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteDialog from "@/components/deleteDialog/page";
 
 const currentDate = new Date(Date.now())
 const ExpanseFetcher = async (url: string) =>
@@ -45,6 +47,7 @@ export default function Expanse() {
     const { data, error, isLoading } = useSWR(`http://localhost:5000/expanse/month`, ExpanseFetcher)
     const { data: categoryData, error: categoryError, isLoading: categoryIsLoading } = useSWR(`http://localhost:5000/category?userId=${userId}`, fetcher)
     const [ isEditExpanseDialogOpen, setEditExpanseDialogOpen ] = React.useState(false)
+    const [ isDeleteExpanseDialogOpen, setDeleteExpanseDialogOpen ] = React.useState(false)
     const [ selectedExpanse, setSelectedExpanse ] = React.useState<GridRowModel<any> | null>(null)
     const [ selectedCategoryId, setSelectedCategoryId ] = React.useState('')
     const [ responseMessage, setResponseMessage ] = React.useState('')
@@ -74,11 +77,22 @@ export default function Expanse() {
                     <EditIcon />
                 </IconButton>
             )
+        },
+        {
+            field: 'delete',
+            width: 120,
+            filterable: false,
+            renderCell: (params: GridRenderCellParams) => (
+                <IconButton onClick={() => handleDeleteExpanse(params.row)}>
+                    <DeleteIcon />
+                </IconButton>
+            )
         }
     ]
 
     const handleOnClose = () => {
         setEditExpanseDialogOpen(false)
+        setDeleteExpanseDialogOpen(false)
     }
 
     const handleEditExpanse = (expanse: GridRowModel<any>) => {
@@ -127,6 +141,40 @@ export default function Expanse() {
         }
     }
 
+    const handleDeleteExpanse = async (expanse: GridRowModel<any>) => {
+        setSelectedExpanse(expanse)
+        setDeleteExpanseDialogOpen(true)
+    }
+
+    const deleteExpanse = async () => {
+        try {
+            await mutate('/expanse', async () => {
+                const url = `http://localhost:5000/expanse/${selectedExpanse.expanse_id}`
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete keyword');
+                }
+
+                const data = await response.json();
+                setResponseMessage(data.message)
+                setSelectedExpanse(null)
+                setSelectedCategoryId("")
+
+                setTimeout(() => {
+                    setResponseMessage("")
+                }, 3000)
+
+                await mutate(`http://localhost:5000/expanse/month`)
+            })
+        } catch (error) {
+            // @ts-ignore
+            throw new Error(`Failed to delete keyword: ${error.message}`)
+        }
+    }
+
     return (
         <Box sx={{ flexGrow: 1}}>
             <Grid container spacing={12} rowSpacing={2}>
@@ -156,6 +204,14 @@ export default function Expanse() {
                         label="Edit Expanse"
                         categories={categories}
                         keywordCategoryId={selectedCategoryId}
+                    />
+                )}
+                {isDeleteExpanseDialogOpen && (
+                    <DeleteDialog
+                        open={isDeleteExpanseDialogOpen}
+                        onCloseAction={handleOnClose}
+                        onDeletionAction={deleteExpanse}
+                        name='this expanse'
                     />
                 )}
             </Grid>
