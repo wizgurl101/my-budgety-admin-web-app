@@ -30,9 +30,16 @@ export default function SideNav({ onClose, open }: SideNavProps): React.ReactEle
                     </ListItem>
                 </MenuItem>
                 <MenuItem>
+                    <ListItem component={Link} href={"/dashboard/expanse"}>
+                        <ListItemText>
+                            Current Month Expanses
+                        </ListItemText>
+                    </ListItem>
+                </MenuItem>
+                <MenuItem>
                     <ListItem component={Link} href={"/dashboard/uploadBudget"}>
                         <ListItemText>
-                            Upload & Budget Management
+                            Upload Csv to Expanses
                         </ListItemText>
                     </ListItem>
                 </MenuItem>
