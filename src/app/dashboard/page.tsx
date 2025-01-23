@@ -11,13 +11,15 @@ import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {fetcher} from '@/utils/SWR.utils';
+import CategoryCard from "@/components/CategoryCard/page";
+import Stack from '@mui/material/Stack';
 
 function getImageUrl(percent: number): string {
     if(percent === 100) {
         return "/images/terriermon-disappointed.jpg"
     }
 
-    if(percent >= 50 && percent < 100) {
+    if(percent >= 80 && percent < 100) {
         return "/images/terriermon-sad.jpg"
     }
 
@@ -25,7 +27,7 @@ function getImageUrl(percent: number): string {
 }
 
 function getProgressBarColour(percent: number): string {
-    if(percent >= 50 && percent < 100) {
+    if(percent >= 80 && percent < 100) {
         return "orange"
     }
 
@@ -62,6 +64,30 @@ export default function Dashboard() {
 
     const expansesTotal = totalSpendData[0].total
     const budgetAmount: number = budgetAmountData[0].budget_amount
+
+    //todo get from backend
+    const categorySpendList = [
+        {
+            "id": 1,
+            "name": "Groceries",
+            "amount": 100,
+        },
+        {
+            "id": 2,
+            "name": "Gas",
+            "amount": 200,
+        },
+        {
+            "id": 3,
+            "name": "Dining Out",
+            "amount": 50,
+        },
+        {
+            "id": 4,
+            "name": "Entertainment",
+            "amount": 150,
+        },
+    ]
 
     let percentage: number
     if (expansesTotal > budgetAmount)
@@ -103,7 +129,16 @@ export default function Dashboard() {
                     <ProgressBar percentage={percentage} colour={progressBarColour}/>
                 </Grid>
                 <Grid size={10} sx={{ mt: '2rem', mb: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="h4">{currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}</Typography>
+                    <Typography variant="h4">
+                        {currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}
+                    </Typography>
+                </Grid>
+                <Grid size={10} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Stack direction="row" spacing={2}>
+                        {categorySpendList.map((category) => (
+                            <CategoryCard key={category.id} name={category.name} amount={category.amount}/>
+                        ))}
+                    </Stack>
                 </Grid>
                 <Grid size={10} sx={{ overflow: 'auto'}}>
                     <DataGrid
