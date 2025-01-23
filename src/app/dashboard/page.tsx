@@ -10,9 +10,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
-//todo remove this after getting current budget amount from api
-const budgetAmount: number = 1200
+import {fetcher} from '@/utils/SWR.utils';
 
 function getImageUrl(percent: number): string {
     if(percent === 100) {
@@ -37,51 +35,33 @@ function getProgressBarColour(percent: number): string {
 
     return "green"
 }
- /*
-  *  FOR EXPANSE DATA GRID
-  * **/
-const columns = [
-    { field: 'categoryName', headerName: 'Category Name', width: 200 },
-    {field: 'date', headerName: 'Date', width: 150, valueGetter: (date: any, row:any) => date.value },
-    { field: 'name', headerName: 'Name', width: 200 },
-    {field: 'amount', headerName: 'Amount', width: 150 },
-    {field: 'card_name', headerName: 'Card Name', width: 200 }
-]
-
-const currentDate = new Date(Date.now())
-
-const params = {
-    userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
-    firstDayOfMonthDate: getMonthFirstDay(currentDate),
-    lastDayOfMonthDate: getMonthLastDay(currentDate)
-}
-const fetcher = async (url: string) =>
-{
-    const fullUrl = `${url}?userId=${params.userId}&firstDayOfMonthDate=${params.firstDayOfMonthDate}&lastDayOfMonthDate=${params.lastDayOfMonthDate}`
-
-    try {
-        const res = await fetch(fullUrl, {
-            method: 'GET',
-        });
-        if (!res.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return await res.json();
-    } catch (error) {
-        // @ts-ignore
-        throw new Error(`Fetch error: ${error.message}`);
-    }
-};
 
 export default function Dashboard() {
-    const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_GET_MONTH_EXPANSE_LOCALHOST_URL}`, fetcher)
-    if (error) {
+    const currentDate: Date = new Date(Date.now())
+    const firstDayOfMonthDate: string = getMonthFirstDay(currentDate)
+    const lastDayOfMonthDate: string = getMonthLastDay(currentDate)
+
+    const latest5ExpansesUrl = `${process.env.NEXT_PUBLIC_MONTH_LATEST_EXPANSE_LOCALHOST_URL}` +
+        `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+    const { data, error, isLoading } = useSWR(latest5ExpansesUrl, fetcher)
+
+    const monthTotalSpendURL = `${process.env.NEXT_PUBLIC_GET_MONTH_TOTAL_EXPANSES_SPEND_AMOUNT_LOCALHOST_URL}` +
+        `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+    const { data: totalSpendData, error: totalSpendError, isLoading: totalSpendIsLoading } = useSWR(monthTotalSpendURL, fetcher)
+
+    const monthBudgetAmountURL = `${process.env.NEXT_PUBLIC_GET_MONTH_BUDGET_AMOUNT_LOCALHOST_URL}` +
+        `userId=${process.env.NEXT_PUBLIC_USER_ID}&year=${currentDate.getFullYear()}&month=${currentDate.getMonth() + 1}`
+    const { data: budgetAmountData, error: budgetAmountError, isLoading: budgetAmountIsLoading } = useSWR(monthBudgetAmountURL, fetcher)
+
+    if (error || totalSpendError || budgetAmountError) {
         return <Typography variant="h4">Error Loading Data</Typography>
     }
-    if (isLoading) return <LoadingBar />
+    if (isLoading || totalSpendIsLoading || budgetAmountIsLoading) {
+        return <LoadingBar />
+    }
 
-    //todo remove this after getting current budget spend from api
-    const expansesTotal = data.reduce((acc: number, item: { amount: number}) => acc + item.amount, 0)
+    const expansesTotal = totalSpendData[0].total
+    const budgetAmount: number = budgetAmountData[0].budget_amount
 
     let percentage: number
     if (expansesTotal > budgetAmount)
@@ -90,8 +70,17 @@ export default function Dashboard() {
     } else {
         percentage = (expansesTotal / budgetAmount) * 100
     }
+
     const progressBarColour = getProgressBarColour(percentage);
     const imageUrl = getImageUrl(percentage);
+
+    const columns = [
+        { field: 'categoryName', headerName: 'Category Name', width: 200 },
+        {field: 'date', headerName: 'Date', width: 150, valueGetter: (date: any, row:any) => date.value },
+        { field: 'name', headerName: 'Name', width: 200 },
+        {field: 'amount', headerName: 'Amount', width: 150 },
+        {field: 'card_name', headerName: 'Card Name', width: 200 }
+    ]
 
     return (
         <Box sx={{ flexGrow: 1, width: 'auto', overflow: 'auto'}}>
