@@ -12,9 +12,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {fetcher} from '@/utils/SWR.utils';
 
-//todo remove this after getting current budget amount from api
-const budgetAmount: number = 1200
-
 function getImageUrl(percent: number): string {
     if(percent === 100) {
         return "/images/terriermon-disappointed.jpg"
@@ -47,13 +44,24 @@ export default function Dashboard() {
     const latest5ExpansesUrl = `${process.env.NEXT_PUBLIC_MONTH_LATEST_EXPANSE_LOCALHOST_URL}` +
         `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
     const { data, error, isLoading } = useSWR(latest5ExpansesUrl, fetcher)
-    if (error) {
+
+    const monthTotalSpendURL = `${process.env.NEXT_PUBLIC_GET_MONTH_TOTAL_EXPANSES_SPEND_AMOUNT_LOCALHOST_URL}` +
+        `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+    const { data: totalSpendData, error: totalSpendError, isLoading: totalSpendIsLoading } = useSWR(monthTotalSpendURL, fetcher)
+
+    const monthBudgetAmountURL = `${process.env.NEXT_PUBLIC_GET_MONTH_BUDGET_AMOUNT_LOCALHOST_URL}` +
+        `userId=${process.env.NEXT_PUBLIC_USER_ID}&year=${currentDate.getFullYear()}&month=${currentDate.getMonth() + 1}`
+    const { data: budgetAmountData, error: budgetAmountError, isLoading: budgetAmountIsLoading } = useSWR(monthBudgetAmountURL, fetcher)
+
+    if (error || totalSpendError || budgetAmountError) {
         return <Typography variant="h4">Error Loading Data</Typography>
     }
-    if (isLoading) return <LoadingBar />
+    if (isLoading || totalSpendIsLoading || budgetAmountIsLoading) {
+        return <LoadingBar />
+    }
 
-    //todo remove this after getting current budget spend from api
-    const expansesTotal = data.reduce((acc: number, item: { amount: number}) => acc + item.amount, 0)
+    const expansesTotal = totalSpendData[0].total
+    const budgetAmount: number = budgetAmountData[0].budget_amount
 
     let percentage: number
     if (expansesTotal > budgetAmount)
@@ -62,6 +70,7 @@ export default function Dashboard() {
     } else {
         percentage = (expansesTotal / budgetAmount) * 100
     }
+
     const progressBarColour = getProgressBarColour(percentage);
     const imageUrl = getImageUrl(percentage);
 
