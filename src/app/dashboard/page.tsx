@@ -43,27 +43,39 @@ export default function Dashboard() {
     const firstDayOfMonthDate: string = getMonthFirstDay(currentDate)
     const lastDayOfMonthDate: string = getMonthLastDay(currentDate)
 
+    const urlParams = `userId=${process.env.NEXT_PUBLIC_USER_ID}` +
+        `&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+
     const latest5ExpansesUrl = `${process.env.NEXT_PUBLIC_MONTH_LATEST_EXPANSE_LOCALHOST_URL}` +
-        `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+        urlParams
     const { data, error, isLoading } = useSWR(latest5ExpansesUrl, fetcher)
 
     const monthTotalSpendURL = `${process.env.NEXT_PUBLIC_GET_MONTH_TOTAL_EXPANSES_SPEND_AMOUNT_LOCALHOST_URL}` +
-        `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+        urlParams
     const { data: totalSpendData, error: totalSpendError, isLoading: totalSpendIsLoading } = useSWR(monthTotalSpendURL, fetcher)
 
     const monthBudgetAmountURL = `${process.env.NEXT_PUBLIC_GET_MONTH_BUDGET_AMOUNT_LOCALHOST_URL}` +
-        `userId=${process.env.NEXT_PUBLIC_USER_ID}&year=${currentDate.getFullYear()}&month=${currentDate.getMonth() + 1}`
+        `userId=${process.env.NEXT_PUBLIC_USER_ID}&year=${currentDate.getFullYear()}&month=${currentDate.getMonth()+1}`
     const { data: budgetAmountData, error: budgetAmountError, isLoading: budgetAmountIsLoading } = useSWR(monthBudgetAmountURL, fetcher)
 
-    if (error || totalSpendError || budgetAmountError) {
+    const monthCategoriesSpendURL = `${process.env.NEXT_PUBLIC_GET_MONTH_CATEGORY_SPEND_AMOUNT_LOCALHOST_URL}` +
+        urlParams
+    const { data: categoriesSpendData, error: categoriesSpendError, isLoading: categoriesSpendIsLoading } = useSWR(monthCategoriesSpendURL, fetcher)
+
+    if (error || totalSpendError || budgetAmountError || categoriesSpendError) {
         return <Typography variant="h4">Error Loading Data</Typography>
     }
-    if (isLoading || totalSpendIsLoading || budgetAmountIsLoading) {
+    if (isLoading || totalSpendIsLoading || budgetAmountIsLoading || categoriesSpendIsLoading) {
         return <LoadingBar />
     }
 
+    console.log('budget amount')
+    console.log(budgetAmountData)
+
     const expansesTotal = totalSpendData[0].total
-    const budgetAmount: number = budgetAmountData[0].budget_amount
+    const budgetAmount: number = budgetAmountData[0]?.budget_amount || 1500
+
+    console.log(categoriesSpendData)
 
     //todo get from backend
     const categorySpendList = [
