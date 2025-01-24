@@ -11,57 +11,44 @@ import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {fetcher} from '@/utils/SWR.utils';
-
-function getImageUrl(percent: number): string {
-    if(percent === 100) {
-        return "/images/terriermon-disappointed.jpg"
-    }
-
-    if(percent >= 50 && percent < 100) {
-        return "/images/terriermon-sad.jpg"
-    }
-
-    return "/images/terriermon-happy.jpg"
-}
-
-function getProgressBarColour(percent: number): string {
-    if(percent >= 50 && percent < 100) {
-        return "orange"
-    }
-
-    if(percent === 100) {
-        return "red"
-    }
-
-    return "green"
-}
+import CategoryCard from "@/components/CategoryCard/page";
+import Stack from '@mui/material/Stack';
+import { getProgressBarColour, getImageUrl, createCategoryCardItems } from './dashboard.helpers';
 
 export default function Dashboard() {
     const currentDate: Date = new Date(Date.now())
     const firstDayOfMonthDate: string = getMonthFirstDay(currentDate)
     const lastDayOfMonthDate: string = getMonthLastDay(currentDate)
 
+    const urlParams = `userId=${process.env.NEXT_PUBLIC_USER_ID}` +
+        `&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+
     const latest5ExpansesUrl = `${process.env.NEXT_PUBLIC_MONTH_LATEST_EXPANSE_LOCALHOST_URL}` +
-        `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+        urlParams
     const { data, error, isLoading } = useSWR(latest5ExpansesUrl, fetcher)
 
     const monthTotalSpendURL = `${process.env.NEXT_PUBLIC_GET_MONTH_TOTAL_EXPANSES_SPEND_AMOUNT_LOCALHOST_URL}` +
-        `userId=${process.env.NEXT_PUBLIC_USER_ID}&firstDayOfMonthDate=${firstDayOfMonthDate}&lastDayOfMonthDate=${lastDayOfMonthDate}`
+        urlParams
     const { data: totalSpendData, error: totalSpendError, isLoading: totalSpendIsLoading } = useSWR(monthTotalSpendURL, fetcher)
 
     const monthBudgetAmountURL = `${process.env.NEXT_PUBLIC_GET_MONTH_BUDGET_AMOUNT_LOCALHOST_URL}` +
-        `userId=${process.env.NEXT_PUBLIC_USER_ID}&year=${currentDate.getFullYear()}&month=${currentDate.getMonth() + 1}`
+        `userId=${process.env.NEXT_PUBLIC_USER_ID}&year=${currentDate.getFullYear()}&month=${currentDate.getMonth()+1}`
     const { data: budgetAmountData, error: budgetAmountError, isLoading: budgetAmountIsLoading } = useSWR(monthBudgetAmountURL, fetcher)
 
-    if (error || totalSpendError || budgetAmountError) {
+    const monthCategoriesSpendURL = `${process.env.NEXT_PUBLIC_GET_MONTH_CATEGORY_SPEND_AMOUNT_LOCALHOST_URL}` +
+        urlParams
+    const { data: categoriesSpendData, error: categoriesSpendError, isLoading: categoriesSpendIsLoading } = useSWR(monthCategoriesSpendURL, fetcher)
+
+    if (error || totalSpendError || budgetAmountError || categoriesSpendError) {
         return <Typography variant="h4">Error Loading Data</Typography>
     }
-    if (isLoading || totalSpendIsLoading || budgetAmountIsLoading) {
+    if (isLoading || totalSpendIsLoading || budgetAmountIsLoading || categoriesSpendIsLoading) {
         return <LoadingBar />
     }
 
     const expansesTotal = totalSpendData[0].total
-    const budgetAmount: number = budgetAmountData[0].budget_amount
+    const budgetAmount: number = budgetAmountData[0]?.budget_amount || 1500
+    const categorySpendList = createCategoryCardItems(categoriesSpendData)
 
     let percentage: number
     if (expansesTotal > budgetAmount)
@@ -103,7 +90,25 @@ export default function Dashboard() {
                     <ProgressBar percentage={percentage} colour={progressBarColour}/>
                 </Grid>
                 <Grid size={10} sx={{ mt: '2rem', mb: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="h4">{currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}</Typography>
+                    <Typography variant="h4">
+                        {currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}
+                    </Typography>
+                </Grid>
+                <Grid size={10} sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    mb: '1rem'
+                }}>
+                    <Stack direction="row" spacing={2}>
+                        {categorySpendList.map((category) => (
+                            <CategoryCard
+                                key={category.id}
+                                name={category.name}
+                                amount={category.amount}
+                                color={category.color}
+                            />))}
+                    </Stack>
                 </Grid>
                 <Grid size={10} sx={{ overflow: 'auto'}}>
                     <DataGrid
