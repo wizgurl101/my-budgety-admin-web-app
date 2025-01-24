@@ -46,9 +46,6 @@ export default function Dashboard() {
         return <LoadingBar />
     }
 
-    console.log('budget amount')
-    console.log(budgetAmountData)
-
     const expansesTotal = totalSpendData[0].total
     const budgetAmount: number = budgetAmountData[0]?.budget_amount || 1500
     const categorySpendList = createCategoryCardItems(categoriesSpendData)
@@ -97,14 +94,18 @@ export default function Dashboard() {
                         {currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}
                     </Typography>
                 </Grid>
-                <Grid size={10} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Grid size={10} sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
                     <Stack direction="row" spacing={2}>
                         {categorySpendList.map((category) => (
                             <CategoryCard
                                 key={category.id}
                                 name={category.name}
                                 amount={category.amount}
-                                backgroundColor={category.color}
+                                color={category.color}
                             />))}
                     </Stack>
                 </Grid>

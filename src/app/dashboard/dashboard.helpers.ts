@@ -15,22 +15,22 @@ export function getImageUrl(percent: number): string {
 
 export function getProgressBarColour(percent: number): string {
     if(percent >= 80 && percent < 100) {
-        return "orange"
+        return "#FF9D23"
     }
 
     if(percent === 100) {
-        return "red"
+        return "#A31D1D"
     }
 
-    return "green"
+    return "#5D8736"
 }
 
-export function createCategoryCardItems(categories: Category[]): CategoryCardProps[] {
+export function createCategoryCardItems(categories: any[]): CategoryCardProps[] {
     let categoryCardItems: CategoryCardProps[] = []
 
     for(let i = 0; i < categories.length; i++) {
         categoryCardItems.push({
-            id: categories[i].id,
+            id: i,
             name: categories[i].name,
             amount: categories[i].total,
             color: categoryCardColours[i]

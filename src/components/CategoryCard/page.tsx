@@ -17,7 +17,7 @@ export default function CategoryCard({ name, amount, color }: CategoryCardProps)
         <Card sx={{
             width: '200px',
             height: '250px',
-            backgroundColor: `${color}`,
+            backgroundColor: color,
         }}>
             <CardActionArea>
                 <CardContent sx={{
