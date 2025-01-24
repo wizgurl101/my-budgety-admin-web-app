@@ -65,9 +65,17 @@ export default function Dashboard() {
     const columns = [
         {field: 'date', headerName: 'Date', width: 150, valueGetter: (date: any, row:any) => date.value },
         { field: 'name', headerName: 'Name', width: 200 },
-        {field: 'amount', headerName: 'Amount', width: 150 },
-        { field: 'categoryName', headerName: 'Category Name', width: 200 },
-        {field: 'card_name', headerName: 'Card Name', width: 200 }
+        {
+            field: 'amount',
+            headerName: 'Amount',
+            width: 120,
+            valueFormatter: (amount: Number) => {
+                const valueFormatted = amount.toFixed(2);
+                return `$${valueFormatted}`;
+            }
+        },
+        { field: 'categoryName', headerName: 'Category Name', width: 210 },
+        {field: 'card_name', headerName: 'Card Name', width: 190 }
     ]
 
     return (
