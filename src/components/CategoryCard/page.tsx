@@ -4,21 +4,30 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 
-interface CardProps {
+export interface CategoryCardProps {
+    id ?: number;
     name: string;
     amount: number;
+    color?: string;
 }
 
-export default function CategoryCard({ name, amount }: CardProps): React.ReactElement  {
+export default function CategoryCard({ name, amount, color }: CategoryCardProps)
+    : React.ReactElement  {
     return (
-        <Card sx={{ maxWidth: 200 }}>
+        <Card sx={{
+            width: '200px',
+            height: '250px',
+            backgroundColor: `${color}`,
+        }}>
             <CardActionArea>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                <CardContent sx={{
+                    width: '100%'
+                }}>
+                    <Typography gutterBottom variant="h6" component="div">
                         {name}
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        {amount}
+                       $ {amount}
                     </Typography>
                 </CardContent>
             </CardActionArea>
