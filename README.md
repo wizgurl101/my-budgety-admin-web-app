@@ -1,10 +1,10 @@
 
-# my-budgety-admin-web-app
+# My Budgety Admin Web Application
 
 ![Demo](./my-budgety-web-app.gif)
 
 
-My Budgety Web Admin Application is for helping me track my expanses. 
+My Budgety Web Admin Application is for helping me manage my budget each month.  With future updates to gamified the experience to make it more enjoyable.  In addition, I use this project to learn the Nextjs framework. 
 
 ## Dev Setup
 
