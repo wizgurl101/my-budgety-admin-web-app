@@ -16,8 +16,8 @@ export default function CategoryCard({ name, amount, color }: CategoryCardProps)
     : React.ReactElement  {
     return (
         <Card sx={{
-            width: '200px',
-            height: '250px',
+            width: '190px',
+            height: '220px',
             backgroundColor: color,
         }}>
             <Box>
@@ -28,7 +28,8 @@ export default function CategoryCard({ name, amount, color }: CategoryCardProps)
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: '16px',
-                    boxSizing: 'border-box'
+                    boxSizing: 'border-box',
+                    mt: '25px',
                 }}>
                     <Box sx={{ textAlign: 'center', width: '100%' }}>
                         <Typography
@@ -36,7 +37,7 @@ export default function CategoryCard({ name, amount, color }: CategoryCardProps)
                             component="div"
                             sx={{
                                 color: '#4A4947',
-                                fontSize: '1.5rem',
+                                fontSize: '1rem',
                                 fontWeight: 'bold',
                             }}
                         >
@@ -48,7 +49,7 @@ export default function CategoryCard({ name, amount, color }: CategoryCardProps)
                                         fontSize: '2rem',
                                         fontWeight: 'bold',
                                     }}>
-                            $ {amount}
+                            ${amount.toFixed(2)}
                         </Typography>
                     </Box>
                 </CardContent>

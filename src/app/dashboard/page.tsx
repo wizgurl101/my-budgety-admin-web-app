@@ -49,6 +49,7 @@ export default function Dashboard() {
     const expansesTotal = totalSpendData[0].total
     const budgetAmount: number = budgetAmountData[0]?.budget_amount || 1500
     const categorySpendList = createCategoryCardItems(categoriesSpendData)
+        .sort((a, b) => b.amount - a.amount);
 
     let percentage: number
     if (expansesTotal > budgetAmount)
@@ -62,10 +63,10 @@ export default function Dashboard() {
     const imageUrl = getImageUrl(percentage);
 
     const columns = [
-        { field: 'categoryName', headerName: 'Category Name', width: 200 },
         {field: 'date', headerName: 'Date', width: 150, valueGetter: (date: any, row:any) => date.value },
         { field: 'name', headerName: 'Name', width: 200 },
         {field: 'amount', headerName: 'Amount', width: 150 },
+        { field: 'categoryName', headerName: 'Category Name', width: 200 },
         {field: 'card_name', headerName: 'Card Name', width: 200 }
     ]
 
@@ -81,7 +82,7 @@ export default function Dashboard() {
                     />
                 </Grid>
                 <Grid size={6} sx={{ mt: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="h5">Spend: ${expansesTotal}</Typography>
+                    <Typography variant="h5">Spend: ${expansesTotal.toFixed(2)}</Typography>
                 </Grid>
                 <Grid size={6} sx={{ mt: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Typography variant="h5">Budget: ${budgetAmount}</Typography>
@@ -89,8 +90,14 @@ export default function Dashboard() {
                 <Grid size={10}>
                     <ProgressBar percentage={percentage} colour={progressBarColour}/>
                 </Grid>
-                <Grid size={10} sx={{ mt: '2rem', mb: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Typography variant="h4">
+                <Grid size={10} sx={{
+                    mt: '2rem',
+                    mb: '2rem',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <Typography variant="h4" sx={{ fontWeight: 'bold'}}>
                         {currentDate.toLocaleString('default', {month: 'long'})}  {currentDate.getFullYear()}
                     </Typography>
                 </Grid>
@@ -109,6 +116,11 @@ export default function Dashboard() {
                                 color={category.color}
                             />))}
                     </Stack>
+                </Grid>
+                <Grid size={10} sx={{ mt: '2rem', mb: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Typography variant="h5">
+                        Latest 5 Transactions
+                    </Typography>
                 </Grid>
                 <Grid size={10} sx={{ overflow: 'auto'}}>
                     <DataGrid
