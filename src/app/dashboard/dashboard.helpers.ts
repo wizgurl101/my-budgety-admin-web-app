@@ -19,7 +19,7 @@ export function getProgressBarColour(percent: number): string {
     }
 
     if(percent === 100) {
-        return "#C40C0C"
+        return "#FF2929"
     }
 
     return "#5D8736"
