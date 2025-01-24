@@ -97,7 +97,8 @@ export default function Dashboard() {
                 <Grid size={10} sx={{
                     display: 'flex',
                     justifyContent: 'center',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    mb: '1rem'
                 }}>
                     <Stack direction="row" spacing={2}>
                         {categorySpendList.map((category) => (
