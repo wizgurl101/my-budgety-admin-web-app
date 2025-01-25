@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';
@@ -9,53 +9,59 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 interface NewCategoryDialogProps {
-    open: boolean;
-    onClose: () => void;
-    onCreate: (categoryName: string) => void;
-    label: string;
-    buttonLabel: string;
+  open: boolean;
+  onClose: () => void;
+  onCreate: (categoryName: string) => void;
+  label: string;
+  buttonLabel: string;
 }
 
-export default function NewCategoryDialog ({ open, onClose, onCreate, label, buttonLabel }: NewCategoryDialogProps) {
-    const [categoryName, setCategoryName] = React.useState('');
-    const [error, setError] = React.useState('');
+export default function NewCategoryDialog({
+  open,
+  onClose,
+  onCreate,
+  label,
+  buttonLabel,
+}: NewCategoryDialogProps) {
+  const [categoryName, setCategoryName] = React.useState('');
+  const [error, setError] = React.useState('');
 
-    const handleCreate = () => {
-        if (categoryName === "") {
-            setError('Category Name is required');
-            return;
-        }
+  const handleCreate = () => {
+    if (categoryName === '') {
+      setError('Category Name is required');
+      return;
+    }
 
-        onCreate(categoryName);
-        setCategoryName('');
-        onClose();
-    };
+    onCreate(categoryName);
+    setCategoryName('');
+    onClose();
+  };
 
-    return (
-        <Dialog open={open} onClose={onClose}>
-            <DialogTitle>{label}</DialogTitle>
-            <DialogContent>
-                <TextField
-                    autoFocus
-                    required={true}
-                    margin="dense"
-                    label={label}
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    value={categoryName}
-                    onChange={(e) => setCategoryName(e.target.value)}
-                    helperText={error}
-                />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose} color="primary">
-                    Cancel
-                </Button>
-                <Button type="submit" onClick={handleCreate} color="primary">
-                    {buttonLabel}
-                </Button>
-            </DialogActions>
-        </Dialog>
-    )
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{label}</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          required={true}
+          margin="dense"
+          label={label}
+          type="text"
+          fullWidth
+          variant="outlined"
+          value={categoryName}
+          onChange={(e) => setCategoryName(e.target.value)}
+          helperText={error}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">
+          Cancel
+        </Button>
+        <Button type="submit" onClick={handleCreate} color="primary">
+          {buttonLabel}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
