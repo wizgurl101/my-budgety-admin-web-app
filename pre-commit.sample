@@ -1,0 +1,16 @@
+#!/bin/sh
+# Enable strict error handling
+set -e
+
+# Function to display messages
+echo_message() {
+  echo "========================="
+  echo "$1"
+  echo "========================="
+}
+
+# Run npm format
+echo_message "Running prettier"
+npm run format
+
+exit 0

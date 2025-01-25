@@ -6,6 +6,11 @@ My Budgety Web Admin Application is for helping me manage my budget each month. 
 
 ## Dev Setup
 
+### Setup pre-commit hooks
+
+1.  Copy the file pre-commit.sample to .git/hooks/pre-commit
+2.  Removed the .sample extension and deleted the pre-commit file in the .git/hooks folder
+
 ### Run application in dev mode
 
 ```bash
