@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { Roboto } from 'next/font/google';
 import { ThemeProvider } from '@mui/material/styles';
@@ -13,10 +13,9 @@ const roboto = Roboto({
   variable: '--font-roboto',
 });
 
-
 export const metadata: Metadata = {
-  title: "My Budgety",
-  description: "My Budgety Web Admin App",
+  title: 'My Budgety',
+  description: 'My Budgety Web Admin App',
 };
 
 export default function RootLayout({
@@ -27,11 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-      <AppRouterCacheProvider>
-        <ThemeProvider theme={theme}>
-          {children}
-        </ThemeProvider>
-      </AppRouterCacheProvider>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
