@@ -207,7 +207,7 @@ export default function Page(): React.JSX.Element {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={12} rowSpacing={2}>
         <Grid size={12} sx={{ mt: '1rem' }}>
-          <Typography variant="h4">Manage Category's Keywords</Typography>
+          <Typography variant="h4">Manage Category Keywords</Typography>
         </Grid>
         <Grid size={12}>
           <FormControl fullWidth>
