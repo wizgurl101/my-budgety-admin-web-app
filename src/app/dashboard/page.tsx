@@ -100,7 +100,7 @@ export default function Dashboard() {
       headerName: 'Amount',
       width: 120,
       valueFormatter: (amount: Number) => {
-        const valueFormatted = amount.toFixed(2);
+        const valueFormatted = amount ? amount.toFixed(2) : 0;
         return `$${valueFormatted}`;
       },
     },
@@ -137,7 +137,7 @@ export default function Dashboard() {
           }}
         >
           <Typography variant="h5">
-            Spend: ${expansesTotal.toFixed(2)}
+            Spend: ${expansesTotal ? expansesTotal.toFixed(2) : 0}
           </Typography>
         </Grid>
         <Grid
