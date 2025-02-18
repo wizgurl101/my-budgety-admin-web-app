@@ -28,7 +28,7 @@ export default function SideNav({
         </MenuItem>
         <MenuItem>
           <ListItem component={Link} href={'/dashboard/expanse'}>
-            <ListItemText>Current Month Expanses</ListItemText>
+            <ListItemText>Month Expanses</ListItemText>
           </ListItem>
         </MenuItem>
         <MenuItem>

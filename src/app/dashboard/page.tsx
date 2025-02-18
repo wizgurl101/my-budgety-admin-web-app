@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import ProgressBar from '@/components/progressBar/page';
-import LoadingBar from '@/components/loadingBar/page';
+import ProgressBar from '@/components/ProgressBar/page';
+import LoadingBar from '@/components/LoadingBar/page';
 import { getMonthFirstDay, getMonthLastDay } from '@/utils/dateTime.utils';
 import useSWR from 'swr';
 import { DataGrid } from '@mui/x-data-grid';

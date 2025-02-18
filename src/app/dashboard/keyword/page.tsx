@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import LoadingBar from '@/components/loadingBar/page';
+import LoadingBar from '@/components/LoadingBar/page';
 import useSWR, { mutate } from 'swr';
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetcher } from '@/utils/SWR.utils';
 import KeywordDialog from '@/app/dashboard/keyword/KeywordDialog';
-import DeleteDialog from '@/components/deleteDialog/page';
+import DeleteDialog from '@/components/DeleteDialog/page';
 
 export default function Page(): React.JSX.Element {
   const [selectedCategoryId, setSelectedCategoryId] = React.useState('');

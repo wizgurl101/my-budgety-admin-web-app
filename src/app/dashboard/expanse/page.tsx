@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import LoadingBar from '@/components/loadingBar/page';
+import LoadingBar from '@/components/LoadingBar/page';
 import { getMonthFirstDay, getMonthLastDay } from '@/utils/dateTime.utils';
 import useSWR, { mutate } from 'swr';
 import { DataGrid, GridRenderCellParams, GridRowModel } from '@mui/x-data-grid';
@@ -14,33 +14,39 @@ import EditIcon from '@mui/icons-material/Edit';
 import { fetcher } from '@/utils/SWR.utils';
 import EditExpanseDialog from '@/app/dashboard/expanse/EditExpanseDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteDialog from '@/components/deleteDialog/page';
+import DeleteDialog from '@/components/DeleteDialog/page';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Stack from '@mui/material/Stack';
 
-const currentDate = new Date(Date.now());
-const ExpanseFetcher = async (url: string) => {
-  const params = {
-    // todo: get userId from context
-    userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
-    firstDayOfMonthDate: getMonthFirstDay(currentDate),
-    lastDayOfMonthDate: getMonthLastDay(currentDate),
-  };
-  const fullUrl = `${url}?userId=${params.userId}&firstDayOfMonthDate=${params.firstDayOfMonthDate}&lastDayOfMonthDate=${params.lastDayOfMonthDate}`;
-
-  try {
-    const res = await fetch(fullUrl, {
-      method: 'GET',
-    });
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return await res.json();
-  } catch (error) {
-    // @ts-ignore
-    throw new Error(`Fetch error: ${error.message}`);
-  }
-};
 
 export default function Expanse() {
+const [ date, setDate] = React.useState(new Date(Date.now()));
+const currentDate = new Date(Date.now());
+
+  const ExpanseFetcher = async (url: string) => {
+    const params = {
+      // todo: get userId from context
+      userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
+      firstDayOfMonthDate: getMonthFirstDay(date),
+      lastDayOfMonthDate: getMonthLastDay(date),
+    };
+    const fullUrl = `${url}?userId=${params.userId}&firstDayOfMonthDate=${params.firstDayOfMonthDate}&lastDayOfMonthDate=${params.lastDayOfMonthDate}`;
+
+    try {
+      const res = await fetch(fullUrl, {
+        method: 'GET',
+      });
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return await res.json();
+    } catch (error) {
+      // @ts-ignore
+      throw new Error(`Fetch error: ${error.message}`);
+    }
+  };
+
   //todo look into context API to save the User ID
   const userId = process.env.NEXT_PUBLIC_USER_ID;
   const { data, error, isLoading } = useSWR(
@@ -199,6 +205,18 @@ export default function Expanse() {
     }
   };
 
+  const handlePreviousMonth = () => {
+    const previousMonth = new Date(date);
+    previousMonth.setMonth(date.getMonth() - 1);
+    setDate(previousMonth);
+  }
+
+  const handleNextMonth = () => {
+    const nextMonth = new Date(date);
+    nextMonth.setMonth(date.getMonth() + 1);
+    setDate(nextMonth);
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={12} rowSpacing={2}>
@@ -212,10 +230,20 @@ export default function Expanse() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h4">
-            {currentDate.toLocaleString('default', { month: 'long' })}{' '}
-            {currentDate.getFullYear()}
-          </Typography>
+          <Stack direction="row" spacing={4}>
+            <IconButton>
+              <NavigateBeforeIcon aria-label="previous month button"  onClick={handlePreviousMonth}/>
+            </IconButton>
+            <Typography variant="h4">
+              {date.toLocaleString('default', { month: 'long' })}{' '}
+              {date.getFullYear()}
+            </Typography>
+            {(currentDate.getMonth() !== date.getMonth()) && (
+              <IconButton>
+                <NavigateNextIcon aria-label="next month button" onClick={handleNextMonth}/>
+              </IconButton>
+            ) }
+          </Stack>
         </Grid>
         <Grid size={10}>
           <Typography variant="body1">{responseMessage}</Typography>
