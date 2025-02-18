@@ -19,10 +19,9 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Stack from '@mui/material/Stack';
 
-
 export default function Expanse() {
-const [ date, setDate] = React.useState(new Date(Date.now()));
-const currentDate = new Date(Date.now());
+  const [date, setDate] = React.useState(new Date(Date.now()));
+  const currentDate = new Date(Date.now());
 
   const ExpanseFetcher = async (url: string) => {
     const params = {
@@ -209,13 +208,13 @@ const currentDate = new Date(Date.now());
     const previousMonth = new Date(date);
     previousMonth.setMonth(date.getMonth() - 1);
     setDate(previousMonth);
-  }
+  };
 
   const handleNextMonth = () => {
     const nextMonth = new Date(date);
     nextMonth.setMonth(date.getMonth() + 1);
     setDate(nextMonth);
-  }
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -232,17 +231,23 @@ const currentDate = new Date(Date.now());
         >
           <Stack direction="row" spacing={4}>
             <IconButton>
-              <NavigateBeforeIcon aria-label="previous month button"  onClick={handlePreviousMonth}/>
+              <NavigateBeforeIcon
+                aria-label="previous month button"
+                onClick={handlePreviousMonth}
+              />
             </IconButton>
             <Typography variant="h4">
               {date.toLocaleString('default', { month: 'long' })}{' '}
               {date.getFullYear()}
             </Typography>
-            {(currentDate.getMonth() !== date.getMonth()) && (
+            {currentDate.getMonth() !== date.getMonth() && (
               <IconButton>
-                <NavigateNextIcon aria-label="next month button" onClick={handleNextMonth}/>
+                <NavigateNextIcon
+                  aria-label="next month button"
+                  onClick={handleNextMonth}
+                />
               </IconButton>
-            ) }
+            )}
           </Stack>
         </Grid>
         <Grid size={10}>
