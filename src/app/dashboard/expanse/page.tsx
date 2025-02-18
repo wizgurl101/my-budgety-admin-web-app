@@ -204,7 +204,7 @@ export default function Expanse() {
     }
   };
 
-  const handlePreviousMonth =  async () => {
+  const handlePreviousMonth = async () => {
     const previousMonth = new Date(date);
     previousMonth.setMonth(date.getMonth() - 1);
     setDate(previousMonth);
