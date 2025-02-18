@@ -19,37 +19,37 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Stack from '@mui/material/Stack';
 
+const ExpanseFetcher = async ([url, date]: [string, Date]) => {
+  const params = {
+    // todo: get userId from context
+    userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
+    firstDayOfMonthDate: getMonthFirstDay(date),
+    lastDayOfMonthDate: getMonthLastDay(date),
+  };
+  const fullUrl = `${url}?userId=${params.userId}&firstDayOfMonthDate=${params.firstDayOfMonthDate}&lastDayOfMonthDate=${params.lastDayOfMonthDate}`;
+
+  try {
+    const res = await fetch(fullUrl, {
+      method: 'GET',
+    });
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await res.json();
+  } catch (error) {
+    // @ts-ignore
+    throw new Error(`Fetch error: ${error.message}`);
+  }
+};
+
 export default function Expanse() {
   const [date, setDate] = React.useState(new Date(Date.now()));
   const currentDate = new Date(Date.now());
 
-  const ExpanseFetcher = async (url: string) => {
-    const params = {
-      // todo: get userId from context
-      userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
-      firstDayOfMonthDate: getMonthFirstDay(date),
-      lastDayOfMonthDate: getMonthLastDay(date),
-    };
-    const fullUrl = `${url}?userId=${params.userId}&firstDayOfMonthDate=${params.firstDayOfMonthDate}&lastDayOfMonthDate=${params.lastDayOfMonthDate}`;
-
-    try {
-      const res = await fetch(fullUrl, {
-        method: 'GET',
-      });
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return await res.json();
-    } catch (error) {
-      // @ts-ignore
-      throw new Error(`Fetch error: ${error.message}`);
-    }
-  };
-
   //todo look into context API to save the User ID
   const userId = process.env.NEXT_PUBLIC_USER_ID;
   const { data, error, isLoading } = useSWR(
-    `http://localhost:5000/expanse/month`,
+    [`http://localhost:5000/expanse/month`, date],
     ExpanseFetcher
   );
   const {
@@ -162,7 +162,7 @@ export default function Expanse() {
           setResponseMessage('');
         }, 3000);
 
-        await mutate(`http://localhost:5000/expanse/month`);
+        await mutate([`http://localhost:5000/expanse/month`, date]);
       });
     } catch (error) {
       // @ts-ignore
@@ -196,7 +196,7 @@ export default function Expanse() {
           setResponseMessage('');
         }, 3000);
 
-        await mutate(`http://localhost:5000/expanse/month`);
+        await mutate([`http://localhost:5000/expanse/month`, date]);
       });
     } catch (error) {
       // @ts-ignore
@@ -204,16 +204,18 @@ export default function Expanse() {
     }
   };
 
-  const handlePreviousMonth = () => {
+  const handlePreviousMonth =  async () => {
     const previousMonth = new Date(date);
     previousMonth.setMonth(date.getMonth() - 1);
     setDate(previousMonth);
+    await mutate([`http://localhost:5000/expanse/month`, date]);
   };
 
-  const handleNextMonth = () => {
+  const handleNextMonth = async () => {
     const nextMonth = new Date(date);
     nextMonth.setMonth(date.getMonth() + 1);
     setDate(nextMonth);
+    await mutate([`http://localhost:5000/expanse/month`, date]);
   };
 
   return (
