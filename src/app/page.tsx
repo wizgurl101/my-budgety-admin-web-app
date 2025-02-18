@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, TextField, Container, Typography } from '@mui/material';
-import NavBar from '@/components/navbar/page';
+import NavBar from '@/components/Navbar/page';
 export default function Home() {
   return (
     <>

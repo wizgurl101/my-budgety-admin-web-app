@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import SideNav from '@/components/sidenav/page';
+import SideNav from '@/components/Sidenav/page';
 
 export default function NavBar(): React.JSX.Element {
   const [openSideNav, setOpenSideNav] = React.useState<boolean>(false);

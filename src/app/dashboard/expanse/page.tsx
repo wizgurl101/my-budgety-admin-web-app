@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import LoadingBar from '@/components/loadingBar/page';
+import LoadingBar from '@/components/LoadingBar/page';
 import { getMonthFirstDay, getMonthLastDay } from '@/utils/dateTime.utils';
 import useSWR, { mutate } from 'swr';
 import { DataGrid, GridRenderCellParams, GridRowModel } from '@mui/x-data-grid';
@@ -14,15 +14,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import { fetcher } from '@/utils/SWR.utils';
 import EditExpanseDialog from '@/app/dashboard/expanse/EditExpanseDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteDialog from '@/components/deleteDialog/page';
+import DeleteDialog from '@/components/DeleteDialog/page';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Stack from '@mui/material/Stack';
 
-const currentDate = new Date(Date.now());
-const ExpanseFetcher = async (url: string) => {
+const ExpanseFetcher = async ([url, date]: [string, Date]) => {
   const params = {
     // todo: get userId from context
     userId: `${process.env.NEXT_PUBLIC_USER_ID}`,
-    firstDayOfMonthDate: getMonthFirstDay(currentDate),
-    lastDayOfMonthDate: getMonthLastDay(currentDate),
+    firstDayOfMonthDate: getMonthFirstDay(date),
+    lastDayOfMonthDate: getMonthLastDay(date),
   };
   const fullUrl = `${url}?userId=${params.userId}&firstDayOfMonthDate=${params.firstDayOfMonthDate}&lastDayOfMonthDate=${params.lastDayOfMonthDate}`;
 
@@ -41,10 +43,13 @@ const ExpanseFetcher = async (url: string) => {
 };
 
 export default function Expanse() {
+  const [date, setDate] = React.useState(new Date(Date.now()));
+  const currentDate = new Date(Date.now());
+
   //todo look into context API to save the User ID
   const userId = process.env.NEXT_PUBLIC_USER_ID;
   const { data, error, isLoading } = useSWR(
-    `http://localhost:5000/expanse/month`,
+    [`http://localhost:5000/expanse/month`, date],
     ExpanseFetcher
   );
   const {
@@ -157,7 +162,7 @@ export default function Expanse() {
           setResponseMessage('');
         }, 3000);
 
-        await mutate(`http://localhost:5000/expanse/month`);
+        await mutate([`http://localhost:5000/expanse/month`, date]);
       });
     } catch (error) {
       // @ts-ignore
@@ -191,12 +196,26 @@ export default function Expanse() {
           setResponseMessage('');
         }, 3000);
 
-        await mutate(`http://localhost:5000/expanse/month`);
+        await mutate([`http://localhost:5000/expanse/month`, date]);
       });
     } catch (error) {
       // @ts-ignore
       throw new Error(`Failed to delete keyword: ${error.message}`);
     }
+  };
+
+  const handlePreviousMonth = async () => {
+    const previousMonth = new Date(date);
+    previousMonth.setMonth(date.getMonth() - 1);
+    setDate(previousMonth);
+    await mutate([`http://localhost:5000/expanse/month`, date]);
+  };
+
+  const handleNextMonth = async () => {
+    const nextMonth = new Date(date);
+    nextMonth.setMonth(date.getMonth() + 1);
+    setDate(nextMonth);
+    await mutate([`http://localhost:5000/expanse/month`, date]);
   };
 
   return (
@@ -212,10 +231,26 @@ export default function Expanse() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h4">
-            {currentDate.toLocaleString('default', { month: 'long' })}{' '}
-            {currentDate.getFullYear()}
-          </Typography>
+          <Stack direction="row" spacing={4}>
+            <IconButton>
+              <NavigateBeforeIcon
+                aria-label="previous month button"
+                onClick={handlePreviousMonth}
+              />
+            </IconButton>
+            <Typography variant="h4">
+              {date.toLocaleString('default', { month: 'long' })}{' '}
+              {date.getFullYear()}
+            </Typography>
+            {currentDate.getMonth() !== date.getMonth() && (
+              <IconButton>
+                <NavigateNextIcon
+                  aria-label="next month button"
+                  onClick={handleNextMonth}
+                />
+              </IconButton>
+            )}
+          </Stack>
         </Grid>
         <Grid size={10}>
           <Typography variant="body1">{responseMessage}</Typography>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import NavBar from '@/components/navbar/page';
+import NavBar from '@/components/Navbar/page';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 

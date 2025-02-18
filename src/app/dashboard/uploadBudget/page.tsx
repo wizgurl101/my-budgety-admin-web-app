@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import useSWR from 'swr';
-import LoadingBar from '../../../components/loadingBar/page';
+import LoadingBar from '@/components/LoadingBar/page';
 
 export default function UploadBudget() {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import LoadingBar from '@/components/loadingBar/page';
+import LoadingBar from '@/components/LoadingBar/page';
 import useSWR, { mutate } from 'swr';
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import NewCategoryDialog from '@/app/dashboard/category/NewCategoryDialog';
-import DeleteDialog from '@/components/deleteDialog/page';
+import DeleteDialog from '@/components/DeleteDialog/page';
 import { fetcher } from '@/utils/SWR.utils';
 
 export default function Page(): React.JSX.Element {
