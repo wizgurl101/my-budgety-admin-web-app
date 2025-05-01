@@ -20,7 +20,7 @@ import {
 } from './dashboard.helpers';
 
 export default function Dashboard() {
-  const currentDate: Date = new Date(Date.now());
+  const currentDate: Date = new Date('2025-04-15T00:00:00Z');
   const firstDayOfMonthDate: string = getMonthFirstDay(currentDate);
   const lastDayOfMonthDate: string = getMonthLastDay(currentDate);
 
@@ -178,7 +178,12 @@ export default function Dashboard() {
             mb: '1rem',
           }}
         >
-          <Stack direction="row" spacing={2}>
+          <Stack
+            direction="row"
+            spacing={2}
+            useFlexGap
+            sx={{ flexWrap: 'wrap' }}
+          >
             {categorySpendList.map((category) => (
               <CategoryCard
                 key={category.id}
