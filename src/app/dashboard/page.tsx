@@ -178,7 +178,12 @@ export default function Dashboard() {
             mb: '1rem',
           }}
         >
-          <Stack direction="row" spacing={2}>
+          <Stack
+            direction="row"
+            spacing={2}
+            useFlexGap
+            sx={{ flexWrap: 'wrap' }}
+          >
             {categorySpendList.map((category) => (
               <CategoryCard
                 key={category.id}
