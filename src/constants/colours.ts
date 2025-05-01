@@ -8,4 +8,7 @@ export const categoryCardColours = [
   '#E195AB',
   '#81BFDA',
   '#48A6A7',
+  '#8E7DBE',
+  '#FB9EC6',
+  '#FCB454',
 ];

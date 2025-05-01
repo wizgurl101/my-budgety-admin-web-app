@@ -20,7 +20,7 @@ import {
 } from './dashboard.helpers';
 
 export default function Dashboard() {
-  const currentDate: Date = new Date('2025-04-15T00:00:00Z');
+  const currentDate: Date = new Date(Date.now());
   const firstDayOfMonthDate: string = getMonthFirstDay(currentDate);
   const lastDayOfMonthDate: string = getMonthLastDay(currentDate);
 
