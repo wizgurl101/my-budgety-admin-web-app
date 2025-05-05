@@ -46,6 +46,11 @@ export default function SideNav({
             <ListItemText>Category Keywords Management</ListItemText>
           </ListItem>
         </MenuItem>
+        <MenuItem>
+          <ListItem component={Link} href={'/dashboard/ladsCalculator'}>
+            <ListItemText>LaDS Banner Calculator</ListItemText>
+          </ListItem>
+        </MenuItem>
       </MenuList>
     </Drawer>
   );
