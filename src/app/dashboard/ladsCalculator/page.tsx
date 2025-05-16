@@ -5,12 +5,24 @@ import useSWR from 'swr';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
+import {
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Stack,
+  TextField,
+  Button,
+} from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { fetcher } from '@/utils/SWR.utils';
 import LoadingBar from '@/components/LoadingBar/page';
+import { ladsBannerTypes } from '@/app/dashboard/ladsCalculator/lads.constants';
 
 export default function Page(): React.JSX.Element {
   const currentDate: Date = new Date(Date.now());
+  const [selectedBannerType, setBannerType] = React.useState('multi');
+  const [diamondNumber, setDiamondNumber] = React.useState(0);
 
   const ladsSpendURL =
     `http://${process.env.NEXT_PUBLIC_HOST}` +
@@ -27,15 +39,89 @@ export default function Page(): React.JSX.Element {
     return <LoadingBar />;
   }
 
-  const ladsSpentAmount = ladsData[0].total;
+  const ladsSpentAmount = ladsData ? ladsData[0].total.toFixed(2) : 0;
+
+  const handleBannerTypeChange = (event: SelectChangeEvent) => {
+    setBannerType(event.target.value);
+  };
+
+  const handleDiamondNumber = (event: React.FocusEvent<HTMLInputElement>) => {
+    const diamondNumber = parseInt(event.target.value);
+    setDiamondNumber(diamondNumber);
+  };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Typography variant="h4">Lads Banner Cost Estimate</Typography>
-        <Typography variant="h4">
-          Total Spent in {currentDate.getFullYear()}: ${ladsSpentAmount}
-        </Typography>
+    <Box sx={{ flexGrow: 1, width: 'auto', overflow: 'auto' }}>
+      <Grid container columns={12} justifyContent="center" alignItems="center">
+        <Grid
+          size={12}
+          sx={{
+            mt: '1rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h4">Lads Banner Cost Estimate</Typography>
+        </Grid>
+        <Grid
+          size={12}
+          sx={{
+            mt: '1rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h6">
+            Total Spent in {currentDate.getFullYear()}: ${ladsSpentAmount}
+          </Typography>
+        </Grid>
+        <Grid
+          size={12}
+          sx={{
+            mt: '1rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Stack
+            direction="column"
+            spacing={2}
+            useFlexGap
+            sx={{ flexWrap: 'wrap' }}
+          >
+            <FormControl fullWidth>
+              <InputLabel id="banner-type-select-label" sx={{ mt: '0.6rem' }}>
+                Select The Type Of Banner
+              </InputLabel>
+              <Select
+                labelId="banner-type-select-label"
+                value={selectedBannerType}
+                onChange={handleBannerTypeChange}
+                sx={{ width: '300px' }}
+              >
+                {ladsBannerTypes.map((type, index) => (
+                  <MenuItem key={index} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TextField
+              label="Enter number of diamonds"
+              type="number"
+              variant="outlined"
+              sx={{ width: '300px' }}
+              onBlur={handleDiamondNumber}
+            />
+            <Button variant="contained" color="success">
+              Calculate
+            </Button>
+            <Typography variant="h5">$0</Typography>
+          </Stack>
+        </Grid>
       </Grid>
     </Box>
   );
