@@ -23,6 +23,8 @@ export default function Page(): React.JSX.Element {
   const currentDate: Date = new Date(Date.now());
   const [selectedBannerType, setBannerType] = React.useState('multi');
   const [diamondNumber, setDiamondNumber] = React.useState(0);
+  const [deepspaceWishNumber, setDeepspaceWishNumber] = React.useState(0);
+  const [pityNumber, setPityNumber] = React.useState(0);
 
   const ladsSpendURL =
     `http://${process.env.NEXT_PUBLIC_HOST}` +
@@ -48,6 +50,18 @@ export default function Page(): React.JSX.Element {
   const handleDiamondNumber = (event: React.FocusEvent<HTMLInputElement>) => {
     const diamondNumber = parseInt(event.target.value);
     setDiamondNumber(diamondNumber);
+  };
+
+  const handleDeepspaceWishNumber = (
+    event: React.FocusEvent<HTMLInputElement>
+  ) => {
+    const deepspaceWishNumber = parseInt(event.target.value);
+    setDeepspaceWishNumber(deepspaceWishNumber);
+  };
+
+  const handlePityNumber = (event: React.FocusEvent<HTMLInputElement>) => {
+    const pityNumber = parseInt(event.target.value);
+    setPityNumber(pityNumber);
   };
 
   return (
@@ -115,6 +129,20 @@ export default function Page(): React.JSX.Element {
               variant="outlined"
               sx={{ width: '300px' }}
               onBlur={handleDiamondNumber}
+            />
+            <TextField
+              label="Enter number of deepspace wish"
+              type="number"
+              variant="outlined"
+              sx={{ width: '300px' }}
+              onBlur={handleDeepspaceWishNumber}
+            />
+            <TextField
+              label="Enter number of pity"
+              type="number"
+              variant="outlined"
+              sx={{ width: '300px' }}
+              onBlur={handlePityNumber}
             />
             <Button variant="contained" color="success">
               Calculate
