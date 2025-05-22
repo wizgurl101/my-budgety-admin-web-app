@@ -18,6 +18,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { fetcher } from '@/utils/SWR.utils';
 import LoadingBar from '@/components/LoadingBar/page';
 import { ladsBannerTypes } from '@/app/dashboard/ladsCalculator/lads.constants';
+import { calculateBannerCost } from './lads.helpers';
 
 export default function Page(): React.JSX.Element {
   const currentDate: Date = new Date(Date.now());
@@ -27,6 +28,9 @@ export default function Page(): React.JSX.Element {
   const [deepspaceWishNumber, setDeepspaceWishNumber] = React.useState(0);
   const [pityNumber, setPityNumber] = React.useState(0);
   const [wishesMadeNumber, setWishesMadeNumber] = React.useState(0);
+  const [bannerCost, setBannerCost] = React.useState(0);
+  const [isEventCardGuaranteed, setIsEventCardGuaranteed] =
+    React.useState(false);
 
   const ladsSpendURL =
     `http://${process.env.NEXT_PUBLIC_HOST}` +
@@ -78,6 +82,19 @@ export default function Page(): React.JSX.Element {
   ) => {
     const wishesMadeNumber = parseInt(event.target.value);
     setWishesMadeNumber(wishesMadeNumber);
+  };
+
+  const handleBannerCostCalculation = () => {
+    const cost = calculateBannerCost(
+      selectedBannerType,
+      diamondNumber,
+      purpleDiamondNumber,
+      deepspaceWishNumber,
+      pityNumber,
+      wishesMadeNumber,
+      isEventCardGuaranteed
+    );
+    setBannerCost(cost);
   };
 
   return (
@@ -174,10 +191,14 @@ export default function Page(): React.JSX.Element {
               sx={{ width: '350px' }}
               onBlur={handleWishesMadeNumber}
             />
-            <Button variant="contained" color="success">
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleBannerCostCalculation}
+            >
               Calculate
             </Button>
-            <Typography variant="h5">$0</Typography>
+            <Typography variant="h5">${bannerCost}</Typography>
           </Stack>
         </Grid>
       </Grid>

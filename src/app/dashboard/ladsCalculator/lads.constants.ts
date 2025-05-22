@@ -1,5 +1,39 @@
 export const ladsBannerTypes = ['multi', 'solo', 'myth', 're-run'];
 
+// Double check the prices when the next limited banner comes out
+export const LIMITED_PACKS = [
+  {
+    name: 'pack 1',
+    quantity: 1,
+    ticket: 2,
+    price: 0.99,
+  },
+  {
+    name: 'pack 2',
+    quantity: 2,
+    ticket: 6,
+    price: 6.99,
+  },
+  {
+    name: 'pack 3',
+    quantity: 5,
+    ticket: 10,
+    price: 12.99,
+  },
+  {
+    name: 'pack 4',
+    quantity: 3,
+    ticket: 12,
+    price: 17.99,
+  },
+  {
+    name: 'pack 5',
+    quantity: 10,
+    ticket: 20,
+    price: 37.99,
+  },
+];
+
 export const RERUN_PACKS = [
   {
     name: 'pack 1',

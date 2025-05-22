@@ -1,4 +1,4 @@
-import { RERUN_PACKS } from './lads.constants';
+import { RERUN_PACKS, LIMITED_PACKS } from './lads.constants';
 
 export const calculateBannerCost = (
   bannerType: string,
@@ -48,9 +48,16 @@ export const calculateBannerCost = (
   return parseFloat(cost.toFixed(2));
 };
 
+// double check if the packs for solo and multi are the same
 const getBannerPacks = (type: string): any => {
   switch (type) {
-    case 'rerun':
+    case 'multi':
+      return LIMITED_PACKS;
+    case 'solo':
+      return LIMITED_PACKS;
+    case 'myth':
+      return LIMITED_PACKS;
+    case 're-run':
       return RERUN_PACKS;
     default:
       return [];
