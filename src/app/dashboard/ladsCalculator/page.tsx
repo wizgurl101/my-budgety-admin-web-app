@@ -26,6 +26,7 @@ export default function Page(): React.JSX.Element {
   const [purpleDiamondNumber, setPurpleDiamondNumber] = React.useState(0);
   const [deepspaceWishNumber, setDeepspaceWishNumber] = React.useState(0);
   const [pityNumber, setPityNumber] = React.useState(0);
+  const [wishesMadeNumber, setWishesMadeNumber] = React.useState(0);
 
   const ladsSpendURL =
     `http://${process.env.NEXT_PUBLIC_HOST}` +
@@ -70,6 +71,13 @@ export default function Page(): React.JSX.Element {
   const handlePityNumber = (event: React.FocusEvent<HTMLInputElement>) => {
     const pityNumber = parseInt(event.target.value);
     setPityNumber(pityNumber);
+  };
+
+  const handleWishesMadeNumber = (
+    event: React.FocusEvent<HTMLInputElement>
+  ) => {
+    const wishesMadeNumber = parseInt(event.target.value);
+    setWishesMadeNumber(wishesMadeNumber);
   };
 
   return (
@@ -158,6 +166,13 @@ export default function Page(): React.JSX.Element {
               variant="outlined"
               sx={{ width: '350px' }}
               onBlur={handlePityNumber}
+            />
+            <TextField
+              label="wishes made"
+              type="number"
+              variant="outlined"
+              sx={{ width: '350px' }}
+              onBlur={handleWishesMadeNumber}
             />
             <Button variant="contained" color="success">
               Calculate

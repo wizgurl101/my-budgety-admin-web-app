@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
 import { getMonthFirstDay, getMonthLastDay } from '@/utils/dateTime.utils';
 
-describe.skip('Datetime Utils Tests ', () => {
+describe('Datetime Utils Tests ', () => {
   beforeAll(() => {
     jest.setSystemTime(new Date('2025-01-15T00:00:00Z'));
   });

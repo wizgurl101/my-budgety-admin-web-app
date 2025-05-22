@@ -5,14 +5,16 @@ export const calculateBannerCost = (
   diamondNumber: number,
   purpleDiamondNumber: number,
   deepspaceWishNumber: number,
-  pityNumber: number
+  pityNumber: number,
+  wishesMade: number
 ): number => {
-  const pullsToDesiredCard = 140;
+  const pullsToDesiredCard = 140 - wishesMade;
   const pullsFromDiamond = Math.floor(
     (diamondNumber + purpleDiamondNumber) / 150
   );
 
-  let pullsFromPity = pityNumber === 0 ? 0 : 70 - pityNumber;
+  let pullsFromPity =
+    pityNumber === 0 || pullsToDesiredCard < pityNumber ? 0 : 70 - pityNumber;
 
   let pulls =
     pullsToDesiredCard - deepspaceWishNumber - pullsFromDiamond - pullsFromPity;
@@ -43,7 +45,7 @@ export const calculateBannerCost = (
     }
   }
 
-  return cost;
+  return parseFloat(cost.toFixed(2));
 };
 
 const getBannerPacks = (type: string): any => {
