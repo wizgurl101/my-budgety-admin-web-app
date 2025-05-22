@@ -16,6 +16,6 @@ describe('LADS Banner Cost Tests ', () => {
       deepspaceWishNumber,
       pityNumber
     );
-    expect(result).toBe(234.85);
+    expect(result).toBe(216.86);
   });
 });

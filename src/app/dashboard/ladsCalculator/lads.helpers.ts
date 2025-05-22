@@ -12,7 +12,7 @@ export const calculateBannerCost = (
     (diamondNumber + purpleDiamondNumber) / 150
   );
 
-  let pullsFromPity = pityNumber < 70 ? 70 - pityNumber : 0;
+  let pullsFromPity = pityNumber === 0 ? 0 : 70 - pityNumber;
 
   let pulls =
     pullsToDesiredCard - deepspaceWishNumber - pullsFromDiamond - pullsFromPity;
