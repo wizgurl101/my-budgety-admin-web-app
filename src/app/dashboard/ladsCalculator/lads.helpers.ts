@@ -6,15 +6,15 @@ export const calculateBannerCost = (
   purpleDiamondNumber: number,
   deepspaceWishNumber: number,
   pityNumber: number,
-  wishesMade: number
+  wishesMade: number,
+  isEventCardGuaranteed: boolean = false
 ): number => {
   const pullsToDesiredCard = 140 - wishesMade;
   const pullsFromDiamond = Math.floor(
     (diamondNumber + purpleDiamondNumber) / 150
   );
 
-  let pullsFromPity =
-    pityNumber === 0 || pullsToDesiredCard < pityNumber ? 0 : 70 - pityNumber;
+  let pullsFromPity = 0;
 
   let pulls =
     pullsToDesiredCard - deepspaceWishNumber - pullsFromDiamond - pullsFromPity;
