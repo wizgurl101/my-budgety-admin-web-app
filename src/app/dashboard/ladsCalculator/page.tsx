@@ -23,6 +23,7 @@ export default function Page(): React.JSX.Element {
   const currentDate: Date = new Date(Date.now());
   const [selectedBannerType, setBannerType] = React.useState('multi');
   const [diamondNumber, setDiamondNumber] = React.useState(0);
+  const [purpleDiamondNumber, setPurpleDiamondNumber] = React.useState(0);
   const [deepspaceWishNumber, setDeepspaceWishNumber] = React.useState(0);
   const [pityNumber, setPityNumber] = React.useState(0);
 
@@ -50,6 +51,13 @@ export default function Page(): React.JSX.Element {
   const handleDiamondNumber = (event: React.FocusEvent<HTMLInputElement>) => {
     const diamondNumber = parseInt(event.target.value);
     setDiamondNumber(diamondNumber);
+  };
+
+  const handlePurpleDiamondNumber = (
+    event: React.FocusEvent<HTMLInputElement>
+  ) => {
+    const purpleDiamondNumber = parseInt(event.target.value);
+    setPurpleDiamondNumber(purpleDiamondNumber);
   };
 
   const handleDeepspaceWishNumber = (
@@ -114,7 +122,7 @@ export default function Page(): React.JSX.Element {
                 labelId="banner-type-select-label"
                 value={selectedBannerType}
                 onChange={handleBannerTypeChange}
-                sx={{ width: '300px' }}
+                sx={{ width: '350px' }}
               >
                 {ladsBannerTypes.map((type, index) => (
                   <MenuItem key={index} value={type}>
@@ -127,21 +135,28 @@ export default function Page(): React.JSX.Element {
               label="Enter number of diamonds"
               type="number"
               variant="outlined"
-              sx={{ width: '300px' }}
+              sx={{ width: '350px' }}
               onBlur={handleDiamondNumber}
+            />
+            <TextField
+              label="Enter number of purple diamonds"
+              type="number"
+              variant="outlined"
+              sx={{ width: '350px' }}
+              onBlur={handlePurpleDiamondNumber}
             />
             <TextField
               label="Enter number of deepspace wish"
               type="number"
               variant="outlined"
-              sx={{ width: '300px' }}
+              sx={{ width: '350px' }}
               onBlur={handleDeepspaceWishNumber}
             />
             <TextField
               label="Enter number of pity"
               type="number"
               variant="outlined"
-              sx={{ width: '300px' }}
+              sx={{ width: '350px' }}
               onBlur={handlePityNumber}
             />
             <Button variant="contained" color="success">
