@@ -23,6 +23,13 @@ export const calculateBannerCost = (
     return 0;
   }
 
+  return calculatePullCost(bannerType, pulls);
+};
+
+export const calculatePullCost = (
+  bannerType: string,
+  pulls: number
+): number => {
   let cost = 0;
   let packs = getBannerPacks(bannerType);
 

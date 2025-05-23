@@ -13,6 +13,7 @@ import {
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { ladsBannerTypes } from '@/app/dashboard/ladsCalculator/lads.constants';
+import { calculatePullCost } from './lads.helpers';
 
 export default function PullsEstimateComponent(): React.JSX.Element {
   const [selectedBannerType, setBannerType] = React.useState('multi');
@@ -28,7 +29,10 @@ export default function PullsEstimateComponent(): React.JSX.Element {
     setPullNumber(pullNumber);
   };
 
-  const handlePullCostCalculation = () => {};
+  const handlePullCostCalculation = () => {
+    const cost = calculatePullCost(selectedBannerType, pullNumber);
+    setPullCost(cost);
+  };
 
   return (
     <Box sx={{ flexGrow: 1, width: 'auto', overflow: 'auto' }}>
