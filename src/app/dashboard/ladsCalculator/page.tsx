@@ -7,12 +7,14 @@ import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Stack from '@mui/material/Stack';
 
 import { fetcher } from '@/utils/SWR.utils';
 import LoadingBar from '@/components/LoadingBar/page';
 import { a11yProps } from './lads.helpers';
 import BannerEstimateComponent from './bannerEstimateComponent';
 import LadsTabPanelComponent from './ladsTabComponent';
+import PullsEstimateComponent from './pullsEstimateComponent';
 
 export default function Page(): React.JSX.Element {
   const currentDate: Date = new Date(Date.now());
@@ -64,22 +66,25 @@ export default function Page(): React.JSX.Element {
             alignItems: 'center',
           }}
         >
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs
-              value={value}
-              onChange={handleTabChange}
-              aria-label="love and deepspace tabs"
-            >
-              <Tab label="Banner Cost" {...a11yProps(0)} />
-              <Tab label="Pull Cost" {...a11yProps(1)} />
-            </Tabs>
-          </Box>
-          <LadsTabPanelComponent value={value} index={0}>
-            <BannerEstimateComponent />
-          </LadsTabPanelComponent>
-          <LadsTabPanelComponent value={value} index={1}>
-            Pull Cost
-          </LadsTabPanelComponent>
+          <Stack>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs
+                value={value}
+                onChange={handleTabChange}
+                aria-label="love and deepspace tabs"
+                sx={{ width: '800px' }}
+              >
+                <Tab label="Banner Cost" {...a11yProps(0)} />
+                <Tab label="Pull Cost" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <LadsTabPanelComponent value={value} index={0}>
+              <BannerEstimateComponent />
+            </LadsTabPanelComponent>
+            <LadsTabPanelComponent value={value} index={1}>
+              <PullsEstimateComponent />
+            </LadsTabPanelComponent>
+          </Stack>
         </Grid>
       </Grid>
     </Box>
