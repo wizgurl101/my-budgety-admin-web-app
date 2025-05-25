@@ -11,6 +11,7 @@ import {
   Button,
 } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Image from 'next/image';
 
 import { ladsBannerTypes } from '@/app/dashboard/ladsCalculator/lads.constants';
 import { calculateBannerCost } from './lads.helpers';
@@ -25,6 +26,8 @@ export default function BannerEstimateComponent(): React.JSX.Element {
   const [bannerCost, setBannerCost] = React.useState(0);
   const [isEventCardGuaranteed, setIsEventCardGuaranteed] =
     React.useState(false);
+  const [showImage, setShowImage] = React.useState(false);
+  const [imageUrl, setImageUrl] = React.useState('');
 
   const handleBannerTypeChange = (event: SelectChangeEvent) => {
     setBannerType(event.target.value);
@@ -71,6 +74,16 @@ export default function BannerEstimateComponent(): React.JSX.Element {
       wishesMadeNumber,
       isEventCardGuaranteed
     );
+    let imageUrl = '';
+
+    if (cost < 50) {
+      imageUrl = '/images/terriermon-banner-go-for-it.jpg';
+    } else {
+      imageUrl = '/images/terriermon-banner-judging-you.jpg';
+    }
+
+    setImageUrl(imageUrl);
+    setShowImage(true);
     setBannerCost(cost);
   };
 
@@ -111,7 +124,7 @@ export default function BannerEstimateComponent(): React.JSX.Element {
                 labelId="banner-type-select-label"
                 value={selectedBannerType}
                 onChange={handleBannerTypeChange}
-                sx={{ width: '350px' }}
+                sx={{ width: '500px' }}
               >
                 {ladsBannerTypes.map((type, index) => (
                   <MenuItem key={index} value={type}>
@@ -124,35 +137,35 @@ export default function BannerEstimateComponent(): React.JSX.Element {
               label="Enter number of diamonds"
               type="number"
               variant="outlined"
-              sx={{ width: '350px' }}
+              sx={{ width: '500px' }}
               onBlur={handleDiamondNumber}
             />
             <TextField
               label="Enter number of purple diamonds"
               type="number"
               variant="outlined"
-              sx={{ width: '350px' }}
+              sx={{ width: '500px' }}
               onBlur={handlePurpleDiamondNumber}
             />
             <TextField
               label="Enter number of deepspace wish"
               type="number"
               variant="outlined"
-              sx={{ width: '350px' }}
+              sx={{ width: '500px' }}
               onBlur={handleDeepspaceWishNumber}
             />
             <TextField
               label="Enter number of pity"
               type="number"
               variant="outlined"
-              sx={{ width: '350px' }}
+              sx={{ width: '500px' }}
               onBlur={handlePityNumber}
             />
             <TextField
               label="wishes made"
               type="number"
               variant="outlined"
-              sx={{ width: '350px' }}
+              sx={{ width: '500px' }}
               onBlur={handleWishesMadeNumber}
             />
             <Button
@@ -162,7 +175,17 @@ export default function BannerEstimateComponent(): React.JSX.Element {
             >
               Calculate
             </Button>
-            <Typography variant="h5">${bannerCost}</Typography>
+            <Typography variant="h5">
+              Pulling in this banner will cost ${bannerCost}
+            </Typography>
+            {showImage && (
+              <Image
+                src={imageUrl}
+                alt="Terriermon status according to amount spent"
+                width={300}
+                height={300}
+              />
+            )}
           </Stack>
         </Grid>
       </Grid>

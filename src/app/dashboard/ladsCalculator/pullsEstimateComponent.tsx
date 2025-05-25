@@ -11,6 +11,7 @@ import {
   Button,
 } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Image from 'next/image';
 
 import { ladsBannerTypes } from '@/app/dashboard/ladsCalculator/lads.constants';
 import { calculatePullCost } from './lads.helpers';
@@ -19,6 +20,8 @@ export default function PullsEstimateComponent(): React.JSX.Element {
   const [selectedBannerType, setBannerType] = React.useState('multi');
   const [pullNumber, setPullNumber] = React.useState(0);
   const [pullCost, setPullCost] = React.useState(0);
+  const [showImage, setShowImage] = React.useState(false);
+  const [imageUrl, setImageUrl] = React.useState('');
 
   const handleBannerTypeChange = (event: SelectChangeEvent) => {
     setBannerType(event.target.value);
@@ -31,7 +34,17 @@ export default function PullsEstimateComponent(): React.JSX.Element {
 
   const handlePullCostCalculation = () => {
     const cost = calculatePullCost(selectedBannerType, pullNumber);
+    let imageUrl = '';
+
+    if (cost < 50) {
+      imageUrl = '/images/terriermon-banner-go-for-it.jpg';
+    } else {
+      imageUrl = '/images/terriermon-banner-judging-you.jpg';
+    }
+
     setPullCost(cost);
+    setImageUrl(imageUrl);
+    setShowImage(true);
   };
 
   return (
@@ -97,6 +110,14 @@ export default function PullsEstimateComponent(): React.JSX.Element {
             <Typography variant="h5">
               {pullNumber} pulls will cost ${pullCost}
             </Typography>
+            {showImage && (
+              <Image
+                src={imageUrl}
+                alt="Terriermon status according to amount spent"
+                width={300}
+                height={300}
+              />
+            )}
           </Stack>
         </Grid>
       </Grid>

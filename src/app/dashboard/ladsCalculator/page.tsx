@@ -54,7 +54,8 @@ export default function Page(): React.JSX.Element {
           }}
         >
           <Typography variant="h6">
-            Total Spent in {currentDate.getFullYear()}: ${ladsSpentAmount}
+            Total Spent on Love and Deepspace in {currentDate.getFullYear()}: $
+            {ladsSpentAmount}
           </Typography>
         </Grid>
         <Grid
