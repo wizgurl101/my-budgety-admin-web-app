@@ -53,10 +53,29 @@ export default function Page(): React.JSX.Element {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h6">
-            Total Spent on Love and Deepspace in {currentDate.getFullYear()}: $
-            {ladsSpentAmount}
-          </Typography>
+          <Box
+            sx={{
+              width: '800px',
+              height: '400px',
+              backgroundImage: "url('/images/love-and-deepspace-bg.jpg')",
+              backgroundSize: 'cover',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                padding: '1rem',
+                fontWeight: 'bold',
+              }}
+            >
+              Total Spent on Love and Deepspace in {currentDate.getFullYear()}:
+              ${ladsSpentAmount}
+            </Typography>
+          </Box>
         </Grid>
         <Grid
           size={12}

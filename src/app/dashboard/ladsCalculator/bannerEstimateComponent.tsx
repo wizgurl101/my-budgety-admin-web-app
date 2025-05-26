@@ -175,17 +175,26 @@ export default function BannerEstimateComponent(): React.JSX.Element {
             >
               Calculate
             </Button>
-            <Typography variant="h5">
-              Pulling in this banner will cost ${bannerCost}
-            </Typography>
-            {showImage && (
-              <Image
-                src={imageUrl}
-                alt="Terriermon status according to amount spent"
-                width={300}
-                height={300}
-              />
-            )}
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}
+            >
+              <Typography variant="h5">
+                Pulling in this banner will cost ${bannerCost}
+              </Typography>
+              {showImage && (
+                <Image
+                  src={imageUrl}
+                  alt="Terriermon status according to amount spent"
+                  width={300}
+                  height={300}
+                />
+              )}
+            </Box>
           </Stack>
         </Grid>
       </Grid>
