@@ -9,15 +9,22 @@ export const calculateBannerCost = (
   wishesMade: number,
   isEventCardGuaranteed: boolean = false
 ): number => {
-  const pullsToDesiredCard = 140 - wishesMade;
+  let pullsToGuaranteedCard = 140;
+  const pullsTo5Stars = 70;
+
+  if (isEventCardGuaranteed && bannerType === 'solo') {
+    pullsToGuaranteedCard = pityNumber;
+  } else if (!isEventCardGuaranteed && bannerType === 'solo') {
+    pullsToGuaranteedCard = pityNumber + pullsTo5Stars;
+  } else {
+    pullsToGuaranteedCard -= wishesMade;
+  }
+
   const pullsFromDiamond = Math.floor(
     (diamondNumber + purpleDiamondNumber) / 150
   );
 
-  let pullsFromPity = 0;
-
-  let pulls =
-    pullsToDesiredCard - deepspaceWishNumber - pullsFromDiamond - pullsFromPity;
+  let pulls = pullsToGuaranteedCard - deepspaceWishNumber - pullsFromDiamond;
 
   if (pulls <= 0) {
     return 0;
