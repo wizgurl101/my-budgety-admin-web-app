@@ -180,7 +180,7 @@ export default function BannerEstimateComponent(): React.JSX.Element {
             />
             <FormControl>
               <FormLabel id="event-card-radio-group-label">
-                Is event guaranteed?
+                Is event card guaranteed?
               </FormLabel>
               <RadioGroup
                 row
