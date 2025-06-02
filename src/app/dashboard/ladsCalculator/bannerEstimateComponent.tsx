@@ -12,6 +12,10 @@ import {
 } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Image from 'next/image';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
 
 import { ladsBannerTypes } from '@/app/dashboard/ladsCalculator/lads.constants';
 import { calculateBannerCost } from './lads.helpers';
@@ -62,6 +66,12 @@ export default function BannerEstimateComponent(): React.JSX.Element {
   ) => {
     const wishesMadeNumber = parseInt(event.target.value);
     setWishesMadeNumber(wishesMadeNumber);
+  };
+
+  const handleEventCardGuaranteedChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsEventCardGuaranteed(event.target.value === 'y');
   };
 
   const handleBannerCostCalculation = () => {
@@ -168,6 +178,21 @@ export default function BannerEstimateComponent(): React.JSX.Element {
               sx={{ width: '500px' }}
               onBlur={handleWishesMadeNumber}
             />
+            <FormControl>
+              <FormLabel id="event-card-radio-group-label">
+                Is event guaranteed?
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="event-card-radio-group-label"
+                name="row-radio-buttons-group"
+                value="n"
+                onChange={handleEventCardGuaranteedChange}
+              >
+                <FormControlLabel value="n" control={<Radio />} label="No" />
+                <FormControlLabel value="y" control={<Radio />} label="Yes" />
+              </RadioGroup>
+            </FormControl>
             <Button
               variant="contained"
               color="success"
