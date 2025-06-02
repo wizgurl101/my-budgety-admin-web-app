@@ -186,7 +186,7 @@ export default function BannerEstimateComponent(): React.JSX.Element {
                 row
                 aria-labelledby="event-card-radio-group-label"
                 name="row-radio-buttons-group"
-                value="n"
+                value={isEventCardGuaranteed ? 'y' : 'n'}
                 onChange={handleEventCardGuaranteedChange}
               >
                 <FormControlLabel value="n" control={<Radio />} label="No" />
