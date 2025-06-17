@@ -72,6 +72,11 @@ export default function SideNav({
             <ListItemText>Category Keywords Management</ListItemText>
           </ListItem>
         </MenuItem>
+        <MenuItem>
+          <ListItem component={Link} href={'/dashboard/subcategory'}>
+            <ListItemText>Sub-Category Management</ListItemText>
+          </ListItem>
+        </MenuItem>
         <Stack direction="row" spacing={0}>
           <StarIcon sx={{ fontSize: 40, paddingTop: 1, paddingLeft: 3 }} />
           <Typography
