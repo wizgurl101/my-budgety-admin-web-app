@@ -1,4 +1,9 @@
-import { RERUN_PACKS, LIMITED_PACKS, MYTH_PACKS } from './lads.constants';
+import {
+  RERUN_PACKS,
+  LIMITED_PACKS,
+  MYTH_PACKS,
+  MULTI_LIMITED_PACKS,
+} from './lads.constants';
 
 export const calculateBannerCost = (
   bannerType: string,
@@ -66,7 +71,7 @@ export const calculatePullCost = (
 const getBannerPacks = (type: string): any => {
   switch (type) {
     case 'multi':
-      return LIMITED_PACKS;
+      return MULTI_LIMITED_PACKS;
     case 'solo':
       return LIMITED_PACKS;
     case 'myth':
