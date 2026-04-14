@@ -1,36 +1,26 @@
 'use client';
-
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { Button, TextField, Container, Typography } from '@mui/material';
+import NavBar from '@/components/Navbar/page';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 
 export default function Home() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push('/dashboard');
-  }, [router]);
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        backgroundColor: '#F7F7F7',
-        gap: 2,
-      }}
-    >
-      <Typography
-        variant="h4"
+    <Box sx={{ width: '100%' }}>
+      <NavBar />
+      <Container
         sx={{
-          color: 'black',
-          mb: 6,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+          backgroundColor: '#F7F7F7',
+          gap: 2,
         }}
       >
-        Redirecting to dashboard...
-      </Typography>
-    </Container>
+        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+          My Budgety Dailies
+        </Typography>
+      </Container>
+    </Box>
   );
 }
