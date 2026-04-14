@@ -5,7 +5,7 @@ import LoadingBar from '@/components/LoadingBar/page';
 import { getMonthFirstDay, getMonthLastDay } from '@/utils/dateTime.utils';
 import useSWR, { mutate } from 'swr';
 import { DataGrid, GridRenderCellParams, GridRowModel } from '@mui/x-data-grid';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Category } from '@/types/category';

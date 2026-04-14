@@ -7,7 +7,7 @@ import LoadingBar from '@/components/LoadingBar/page';
 import { getMonthFirstDay, getMonthLastDay } from '@/utils/dateTime.utils';
 import useSWR from 'swr';
 import { DataGrid } from '@mui/x-data-grid';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { fetcher } from '@/utils/SWR.utils';
@@ -110,8 +110,9 @@ export default function Dashboard() {
 
   return (
     <Box sx={{ flexGrow: 1, width: 'auto', overflow: 'auto' }}>
-      <Grid container columns={12} justifyContent="center" alignItems="center">
+      <Grid container columns={12} justifycontent="center" alignitems="center">
         <Grid
+          xs={10}
           size={10}
           sx={{
             mt: '2rem',
