@@ -36,7 +36,7 @@ export default function Home() {
           <Button>In Progress</Button>
         </ButtonGroup>
         <ButtonGroup>
-          <Button href="/dashboard">Update Expanse</Button>
+          <Button href="/dashboard/uploadBudget">Update Expanse</Button>
           <Button>In Progress</Button>
         </ButtonGroup>
         <Divider sx={{ width: '100%', marginY: 2 }} />

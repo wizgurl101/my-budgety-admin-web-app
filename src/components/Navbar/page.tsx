@@ -36,13 +36,15 @@ export default function NavBar(): React.JSX.Element {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, color: 'white' }}
-          >
-            MY BUDGETY
-          </Typography>
+          <a href="/">
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, color: 'white' }}
+            >
+              MY BUDGETY
+            </Typography>
+          </a>
         </Toolbar>
       </AppBar>
       <SideNav onClose={setSideNav} open={openSideNav} />

@@ -66,7 +66,7 @@ export default function UploadBudget() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container columns={12} justifyContent="center" alignItems="center">
+      <Grid container columns={12} justifycontent="center" alignitems="center">
         <Grid
           size={12}
           sx={{
