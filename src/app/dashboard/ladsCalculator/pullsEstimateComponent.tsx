@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import {
   MenuItem,
@@ -49,7 +49,7 @@ export default function PullsEstimateComponent(): React.JSX.Element {
 
   return (
     <Box sx={{ flexGrow: 1, width: 'auto', overflow: 'auto' }}>
-      <Grid container columns={12} justifyContent="center" alignItems="center">
+      <Grid container columns={12} justifycontent="center" alignitems="center">
         <Grid
           size={12}
           sx={{

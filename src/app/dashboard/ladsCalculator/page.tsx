@@ -39,7 +39,7 @@ export default function Page(): React.JSX.Element {
     return <LoadingBar />;
   }
 
-  const ladsSpentAmount = ladsData ? ladsData[0].total.toFixed(2) : 0;
+  const ladsSpentAmount = ladsData ? ladsData[0]?.total?.toFixed(2) : 0;
 
   return (
     <Box sx={{ flexGrow: 1, width: 'auto', overflow: 'auto' }}>
