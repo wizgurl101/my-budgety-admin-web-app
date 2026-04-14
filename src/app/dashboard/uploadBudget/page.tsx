@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -78,6 +78,7 @@ export default function UploadBudget() {
         >
           <Typography variant="h5">Upload Budget CSV</Typography>
         </Grid>
+        <h4>Under development. Come back later :D</h4>
         <Grid size={12}>
           <TextField
             type="file"
@@ -92,7 +93,9 @@ export default function UploadBudget() {
             color="primary"
             onClick={handleUpload}
             sx={{ mt: 2 }}
-            disabled={isLoading}
+            // add back in once upload bug been fixed
+            // disabled={isLoading}
+            disabled={true}
           >
             Upload
           </Button>
