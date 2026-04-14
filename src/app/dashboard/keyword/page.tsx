@@ -5,7 +5,7 @@ import LoadingBar from '@/components/LoadingBar/page';
 import useSWR, { mutate } from 'swr';
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { MenuItem, FormControl, InputLabel } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
