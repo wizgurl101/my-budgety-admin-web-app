@@ -1,6 +1,13 @@
 'use client';
 import NavBar from '@/components/Navbar/page';
-import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Box,
+  ButtonGroup,
+} from '@mui/material';
 
 export default function Home() {
   return (
@@ -20,6 +27,10 @@ export default function Home() {
         <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
           My Budgety Dailies
         </Typography>
+        <ButtonGroup>
+          <Button href="/dashboard">Go to Dashboard</Button>
+          <Button>In Progress</Button>
+        </ButtonGroup>
       </Container>
     </Box>
   );
