@@ -16,9 +16,13 @@ export default function BannerEstimateComponent(): React.JSX.Element {
   const [asteriteNumber, setAsteriteNumber] = React.useState(0);
   const [radiantTidesNumber, setRadiantTidesNumber] = React.useState(0);
   const [pityNumber, setPityNumber] = React.useState(0);
+  const [luniteNumber, setLuniteNumber] = React.useState(0);
   const [bannerCost, setBannerCost] = React.useState(0);
-  const [isEventCardGuaranteed, setIsEventCardGuaranteed] =
+  const [isCharacterGuaranteed, setIsCharacterGuaranteed] =
     React.useState(false);
+  const [haveBannerSpecialBundles, setHaveBannerSpecialBundles] =
+    React.useState(true);
+  const [haveDoubleTopups, setHaveDoubleTopups] = React.useState(true);
   const [showImage, setShowImage] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState('');
 
@@ -39,10 +43,27 @@ export default function BannerEstimateComponent(): React.JSX.Element {
     setPityNumber(pityNumber);
   };
 
-  const handleEventCardGuaranteedChange = (
+  const handleLuniteNumber = (event: React.FocusEvent<HTMLInputElement>) => {
+    const luniteNumber = parseInt(event.target.value);
+    setLuniteNumber(luniteNumber);
+  };
+
+  const handleCharacterGuaranteedChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setIsEventCardGuaranteed(event.target.value === 'y');
+    setIsCharacterGuaranteed(event.target.value === 'y');
+  };
+
+  const handleBannerSpecialBundlesChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setHaveBannerSpecialBundles(event.target.value === 'y');
+  };
+
+  const handleDoubleTopupsChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setHaveDoubleTopups(event.target.value === 'y');
   };
 
   const handleBannerCostCalculation = () => {
@@ -110,19 +131,56 @@ export default function BannerEstimateComponent(): React.JSX.Element {
               sx={{ width: '500px' }}
               onBlur={handlePityNumber}
             />
+            <TextField
+              label="Enter number of lunites"
+              type="number"
+              variant="outlined"
+              sx={{ width: '500px' }}
+              onBlur={handleLuniteNumber}
+            />
             <FormControl>
               <FormLabel id="event-card-radio-group-label">
-                Is event card guaranteed?
+                Is character guaranteed?
               </FormLabel>
               <RadioGroup
                 row
-                aria-labelledby="event-card-radio-group-label"
+                aria-labelledby="character-radio-group-label"
                 name="row-radio-buttons-group"
-                value={isEventCardGuaranteed ? 'y' : 'n'}
-                onChange={handleEventCardGuaranteedChange}
+                value={isCharacterGuaranteed ? 'y' : 'n'}
+                onChange={handleCharacterGuaranteedChange}
               >
-                <FormControlLabel value="n" control={<Radio />} label="No" />
                 <FormControlLabel value="y" control={<Radio />} label="Yes" />
+                <FormControlLabel value="n" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel id="banner-special-bundles-radio-group-label">
+                Are there special bundles available?
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="banner-special-bundles-radio-group-label"
+                name="row-radio-buttons-group"
+                value={haveBannerSpecialBundles ? 'y' : 'n'}
+                onChange={handleBannerSpecialBundlesChange}
+              >
+                <FormControlLabel value="y" control={<Radio />} label="Yes" />
+                <FormControlLabel value="n" control={<Radio />} label="No" />
+              </RadioGroup>
+            </FormControl>
+            <FormControl>
+              <FormLabel id="banner-double-topups-radio-group-label">
+                Are there lunite double top-ups available?
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="banner-double-topups-radio-group-label"
+                name="row-radio-buttons-group"
+                value={haveDoubleTopups ? 'y' : 'n'}
+                onChange={handleDoubleTopupsChange}
+              >
+                <FormControlLabel value="y" control={<Radio />} label="Yes" />
+                <FormControlLabel value="n" control={<Radio />} label="No" />
               </RadioGroup>
             </FormControl>
             <Button
