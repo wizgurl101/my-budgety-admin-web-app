@@ -13,19 +13,13 @@ import {
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Image from 'next/image';
 
-import { ladsBannerTypes } from '@/app/dashboard/ladsCalculator/lads.constants';
 import { calculatePullCost } from './wuwa.helpers';
 
 export default function PullsEstimateComponent(): React.JSX.Element {
-  const [selectedBannerType, setBannerType] = React.useState('multi');
   const [pullNumber, setPullNumber] = React.useState(0);
   const [pullCost, setPullCost] = React.useState(0);
   const [showImage, setShowImage] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState('');
-
-  const handleBannerTypeChange = (event: SelectChangeEvent) => {
-    setBannerType(event.target.value);
-  };
 
   const handlePullNumber = (event: React.FocusEvent<HTMLInputElement>) => {
     const pullNumber = parseInt(event.target.value);
@@ -33,7 +27,7 @@ export default function PullsEstimateComponent(): React.JSX.Element {
   };
 
   const handlePullCostCalculation = () => {
-    const cost = calculatePullCost(selectedBannerType, pullNumber);
+    const cost = calculatePullCost(pullNumber);
     let imageUrl = '';
 
     if (cost < 50) {
@@ -76,23 +70,6 @@ export default function PullsEstimateComponent(): React.JSX.Element {
             useFlexGap
             sx={{ flexWrap: 'wrap' }}
           >
-            <FormControl fullWidth>
-              <InputLabel id="banner-type-select-label" sx={{ mt: '0.6rem' }}>
-                Select The Type Of Banner
-              </InputLabel>
-              <Select
-                labelId="banner-type-select-label"
-                value={selectedBannerType}
-                onChange={handleBannerTypeChange}
-                sx={{ width: '350px' }}
-              >
-                {ladsBannerTypes.map((type, index) => (
-                  <MenuItem key={index} value={type}>
-                    {type}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
             <TextField
               label="Enter number of pulls"
               type="number"
