@@ -101,7 +101,7 @@ export default function BannerEstimateComponent(): React.JSX.Element {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h4">Lads Banner Cost Estimate</Typography>
+          <Typography variant="h4">Character Banner Cost Estimate</Typography>
         </Grid>
         <Grid
           size={12}

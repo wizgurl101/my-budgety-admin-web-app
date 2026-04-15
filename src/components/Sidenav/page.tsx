@@ -92,6 +92,11 @@ export default function SideNav({
             <ListItemText>LaDS Banner Calculator</ListItemText>
           </ListItem>
         </MenuItem>
+        <MenuItem>
+          <ListItem component={Link} href={'/dashboard/wuwaCalculator'}>
+            <ListItemText>Wuwa Banner Calculator</ListItemText>
+          </ListItem>
+        </MenuItem>
       </MenuList>
     </Drawer>
   );
