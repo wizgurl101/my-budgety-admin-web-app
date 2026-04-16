@@ -7,12 +7,21 @@ import {
 export interface WuwaBannerCosts {
   total: number;
   asteritesLeftOver: number;
+  packsPurchased: RequiredPack[];
 }
 
-export interface CostResult {
+interface CostResult {
   total: number;
   asteritesLeftOver: number;
   asteritesStillNeeded: number;
+  packsPurchased: RequiredPack[];
+}
+
+interface RequiredPack {
+  name: string;
+  cost: number;
+  asterite: number;
+  limit: number;
 }
 
 const DOUBLE_PACK_TYPE = 'double';
@@ -29,6 +38,7 @@ export const calculateBannerCost = (
 ): WuwaBannerCosts => {
   const characterPity = isGuaranteed ? 80 - pity : 160 - pity;
 
+  let packs: RequiredPack[] = [];
   let cost = 0;
   let asteritesLeftOver = 0;
   let asteritesNeeded =
@@ -45,6 +55,7 @@ export const calculateBannerCost = (
     cost += doubleLuniteResult.total;
     asteritesLeftOver += doubleLuniteResult.asteritesLeftOver;
     asteritesNeeded = doubleLuniteResult.asteritesStillNeeded;
+    packs = [...packs, ...doubleLuniteResult.packsPurchased];
   }
 
   // then check if banner bundles are available
@@ -57,6 +68,7 @@ export const calculateBannerCost = (
     cost += bundleResult.total;
     asteritesLeftOver += bundleResult.asteritesLeftOver;
     asteritesNeeded = bundleResult.asteritesStillNeeded;
+    packs = [...packs, ...bundleResult.packsPurchased];
   }
 
   // then use the normal lunite bundles last
@@ -65,9 +77,14 @@ export const calculateBannerCost = (
     const luniteResult = calculateCost(asteritesNeeded, asteritesLeftOver, '');
     cost += luniteResult.total;
     asteritesLeftOver += luniteResult.asteritesLeftOver;
+    packs = [...packs, ...luniteResult.packsPurchased];
   }
 
-  return { total: cost, asteritesLeftOver };
+  // if there is left over asterites
+  // go through the packs needed to be purchase
+  // remove any pack that have asterites that is less than the asterites left over
+
+  return { total: cost, asteritesLeftOver, packsPurchased: packs };
 };
 
 export const calculateCost = (
@@ -79,8 +96,47 @@ export const calculateCost = (
   let total = 0;
   let asteritesStillNeeded = asteritesNeeded;
   const packs = getPacks(packType);
+  let packNeeded: RequiredPack[] = [];
 
-  return { total, asteritesLeftOver: leftOver, asteritesStillNeeded };
+  for (let i = 0; i < packs.length; i++) {
+    if (asteritesStillNeeded <= 0) {
+      break;
+    }
+
+    const tides = packs[i]?.radiantTides || 0;
+    const packAsterite = packs[i]?.astrite || 0;
+    const asteriteFromTides = tides * 160 + packAsterite;
+    const asteriteFromLunite = packs[i]?.lunite || 0;
+    const packAsteriteTotal = asteriteFromTides + asteriteFromLunite;
+
+    let quantity = packs[i].limit;
+
+    while (quantity > 0) {
+      if (asteritesStillNeeded <= 0) {
+        break;
+      }
+
+      asteritesStillNeeded -= packAsteriteTotal;
+      total += packs[i].cost;
+
+      const newRequiredPack: RequiredPack = {
+        name: packs[i].name,
+        cost: packs[i].cost,
+        asterite: packAsteriteTotal,
+        limit: packs[i].limit,
+      };
+
+      packNeeded.push(newRequiredPack);
+      --quantity;
+    }
+  }
+
+  return {
+    total,
+    asteritesLeftOver: leftOver,
+    asteritesStillNeeded,
+    packsPurchased: packNeeded,
+  };
 };
 
 const getPacks = (type: string): any => {
