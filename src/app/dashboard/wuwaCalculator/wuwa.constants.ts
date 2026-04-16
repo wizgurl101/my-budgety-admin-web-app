@@ -1,4 +1,4 @@
-const SPECIAL_BANNER_BUNDLES = [
+export const SPECIAL_BANNER_BUNDLES = [
   {
     name: "Truthseeker's Radient Collection I Bundle",
     cost: 9.99,
@@ -26,7 +26,7 @@ const SPECIAL_BANNER_BUNDLES = [
   },
 ];
 
-const DOUBLE_TOP_UP_LUNITE_BUNDLES = [
+export const DOUBLE_TOP_UP_LUNITE_BUNDLES = [
   {
     name: 'Lunite x60 with double bonus',
     cost: 0.99,
@@ -71,7 +71,7 @@ const DOUBLE_TOP_UP_LUNITE_BUNDLES = [
   },
 ];
 
-const LUNITE_BUNDLES = [
+export const LUNITE_BUNDLES = [
   {
     name: 'Lunite x60',
     cost: 0.99,

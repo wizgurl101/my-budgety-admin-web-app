@@ -4,6 +4,11 @@ import {
   LUNITE_BUNDLES,
 } from './wuwa.constants';
 
+export interface WuwaBannerCosts {
+  total: number;
+  asteritesLeftOver: number;
+}
+
 export const calculateBannerCost = (
   asterites: number,
   radiantTides: number,
@@ -12,7 +17,7 @@ export const calculateBannerCost = (
   isGuaranteed: boolean = false,
   areBundlesAvailable: boolean = false,
   areDoubleLuniteAvailable: boolean = false
-): number => {
+): WuwaBannerCosts => {
   let cost = 0;
   let asteritesLeftOver = 0;
   const characterPity = isGuaranteed ? 80 - pity : 160 - pity;
@@ -26,7 +31,7 @@ export const calculateBannerCost = (
   // then use the normal lunite bundles last
   // as they are the least value for money spent
 
-  return cost;
+  return { total: cost, asteritesLeftOver };
 };
 
 export const calculatePullCost = (pullNumber: number): number => {
