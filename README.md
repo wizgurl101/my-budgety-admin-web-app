@@ -30,3 +30,9 @@ I use this project to learn the Nextjs framework.
 ```bash
   docker run -d -p 3000:3000 my-budgety-admin-web-app
 ```
+
+## How to run tests
+
+```bash
+  npm run tests
+```
