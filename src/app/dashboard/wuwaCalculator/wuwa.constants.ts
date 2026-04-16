@@ -111,7 +111,15 @@ const LUNITE_BUNDLES = [
     name: 'Lunite x6480',
     cost: 99.99,
     currency: 'USD',
-    lunite: 60,
+    lunite: 6480,
+    limit: 3,
+  },
+  // this lunite package include an extra 8000 and is why the amount of lunite is 40400
+  {
+    name: 'Lunite x32400',
+    cost: 499.95,
+    currency: 'USD',
+    lunite: 40400,
     limit: 3,
   },
 ];
