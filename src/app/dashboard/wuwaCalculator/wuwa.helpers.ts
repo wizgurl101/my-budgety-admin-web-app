@@ -150,6 +150,8 @@ const getPacks = (type: string): any => {
   }
 };
 
+const removeUnnecessaryPacks = () => {};
+
 export function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
