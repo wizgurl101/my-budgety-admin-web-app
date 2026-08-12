@@ -20,11 +20,12 @@ Developed using Nestjs and BigQuery as the database.
 
 ### CLI Tool
 
-CLI Tool developed in Go using the Cobra package. Tool is to remove duplicate entries
+CLI Tool developed in Go using the Cobra package. Tool can remove duplicate entries
 from previous credit card statement csv file from the latest csv. To address the problem
 I was having up a download my credit card statement that contains previous expanse(s)
 already uploaded from the last csv file.  Reduce my time having to use the web admin
-expanse page to manually removed duplicate expanses.
+expanse page to manually removed duplicate expanses.  Along with setting the 
+month budget amount that yet to be implemented as a feature in the web admin.
 
 [My Budgety CLI Tool](https://github.com/wizgurl101/my-budgety-cli)
 
