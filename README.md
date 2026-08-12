@@ -16,14 +16,15 @@ and display it on the banner cost estimator.
 ### Backend Repo that serve the application
 
 [My Budgety API](https://github.com/wizgurl101/my-budgety-backend)
-Developed useing Nestjs and BigQuery as the database.
+Developed using Nestjs and BigQuery as the database.
 
 ### CLI Tool
 
 CLI Tool developed in Go using the Cobra package. Tool is to remove duplicate entries
-from previous credit card statement csv file from the latest csv. Solved the problem
+from previous credit card statement csv file from the latest csv. To address the problem
 I was having up a download my credit card statement that contains previous expanse(s)
-already uploaded from the last csv file. Good opportunity to learn Go.
+already uploaded from the last csv file.  Reduce my time having to use the web admin
+expanse page to manually removed duplicate expanses.
 
 [My Budgety CLI Tool](https://github.com/wizgurl101/my-budgety-cli)
 
