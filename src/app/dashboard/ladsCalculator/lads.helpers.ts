@@ -67,7 +67,6 @@ export const calculatePullCost = (
   return parseFloat(cost.toFixed(2));
 };
 
-// double check if the packs for solo and multi are the same
 const getBannerPacks = (type: string): any => {
   switch (type) {
     case 'multi':

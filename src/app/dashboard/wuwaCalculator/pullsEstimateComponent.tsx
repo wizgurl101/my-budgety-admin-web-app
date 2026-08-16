@@ -2,15 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import {
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Stack,
-  TextField,
-  Button,
-} from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Stack, TextField, Button } from '@mui/material';
 import Image from 'next/image';
 
 import { calculatePullCost } from './wuwa.helpers';

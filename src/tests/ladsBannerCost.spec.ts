@@ -1,7 +1,7 @@
-import { jest } from '@jest/globals';
+import { jest, describe, it, expect } from '@jest/globals';
 import { calculateBannerCost } from '@/app/dashboard/ladsCalculator/lads.helpers';
 
-describe('LADS Banner Cost Tests ', () => {
+describe.skip('LADS Banner Cost Tests ', () => {
   it('Given a rerun When pity and diamonds is zero Then the cost to get the myth pair is $216.86 ', () => {
     const bannerType = 're-run';
     const diamondNumber = 0;

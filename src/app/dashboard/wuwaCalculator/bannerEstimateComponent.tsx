@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { FormControl, Stack, TextField, Button } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select';
 import Image from 'next/image';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -67,10 +66,18 @@ export default function BannerEstimateComponent(): React.JSX.Element {
   };
 
   const handleBannerCostCalculation = () => {
-    const cost = calculateBannerCost();
+    const result = calculateBannerCost(
+      asteriteNumber,
+      radiantTidesNumber,
+      pityNumber,
+      luniteNumber,
+      isCharacterGuaranteed,
+      haveBannerSpecialBundles,
+      haveDoubleTopups
+    );
     let imageUrl = '';
 
-    if (cost < 50) {
+    if (result.total < 50) {
       imageUrl = '/images/terriermon-banner-go-for-it.jpg';
     } else {
       imageUrl = '/images/terriermon-banner-judging-you.jpg';
@@ -78,7 +85,7 @@ export default function BannerEstimateComponent(): React.JSX.Element {
 
     setImageUrl(imageUrl);
     setShowImage(true);
-    setBannerCost(cost);
+    setBannerCost(result.total);
   };
 
   return (
