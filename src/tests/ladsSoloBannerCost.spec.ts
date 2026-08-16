@@ -1,7 +1,7 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { calculateBannerCost } from '@/app/dashboard/ladsCalculator/lads.helpers';
 
-describe.skip('LADS Solo Banner Cost Tests ', () => {
+describe('LADS Solo Banner Cost Tests ', () => {
   it('Given a solo banner When wish and diamonds is zero, pity is 2 and event card is guaranteed Then the cost to get the event card is $0.98 ', () => {
     const bannerType = 'solo';
     const diamondNumber = 0;
