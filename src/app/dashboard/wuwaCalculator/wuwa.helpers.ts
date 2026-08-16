@@ -152,6 +152,11 @@ const getPacks = (type: string): any => {
 
 const removeUnnecessaryPacks = () => {};
 
+export const calculatePullCost = (pull: number): number => {
+  // Need to implement
+  return 0;
+};
+
 export function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
