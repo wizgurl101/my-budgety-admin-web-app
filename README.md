@@ -6,15 +6,6 @@ My Budgety Web Admin Application is for helping me manage my budget each month.
 With future updates to gamified the experience to make it more enjoyable. In addition,
 I use this project to learn the Nextjs framework.
 
-## Features
-
-Application tracked spending in gacha games I played (Love and Deepspace, Wuthering Wave)
-and display it on the banner cost estimator. I want to see how much I have already
-spent in each games and see the potential cost for getting the limited character
-(account for the worst case which is I lost my 50/50 and have to go to hard pity).
-
-![Demo](./wuwa_banner_tool_1.png)
-
 ### Backend Repo that serve the application
 
 [My Budgety API](https://github.com/wizgurl101/my-budgety-backend)
